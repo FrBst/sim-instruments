@@ -1,0 +1,4 @@
+title: "Hourly traffic"
+description: "Hourly traffic"
+csvFile: "hourly_counts.csv"
+network: "*output_network.xml.gz"

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v2.dtd"
+        [
+                <!ENTITY INPUTBASE  "./">
+                <!ENTITY OUTPUTBASE "./output/">
+                <!ENTITY SCENARIO "plymouth">
+                <!ENTITY SEED	"0">
+                ]
+        >
+<!-- Only used to load a network. Needed to compare counting stations data with the simulation -->
+<config>
+    <module name="global" >
+        <param name="coordinateSystem" value="EPSG:27700" />
+    </module>
+    <module name="network" >
+        <param name="inputNetworkFile" value="../../output/plymouth_0/plymouth_0.output_network.xml.gz" />
+    </module>
+</config>
+<!-- ../../output/plymouth_0/plymouth_0.output_network.xml.gz-->
