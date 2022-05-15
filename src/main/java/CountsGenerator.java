@@ -33,7 +33,6 @@ public class CountsGenerator {
     private static Map<String, LinkHourlyCount> base = new HashMap<>();
     private static Map<String, List<Link>> mapping = new HashMap<>();
     private static Map<String, osm.Node> refs = new HashMap<>();
-    private static Osm osm;
     private static int coef = 10; // Population scale.
     private static Network net = ScenarioUtils.loadScenario(ConfigUtils.loadConfig( "scenarios/plymouth/output_network_config.xml")).getNetwork();
 

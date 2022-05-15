@@ -6,8 +6,8 @@ import lombok.Data;
 public class Activity {
     int oEndTime;
     String modeBefore;
-    String oType;
-    String dType;
+    ActivityType oType;
+    ActivityType dType;
     int oZone;
     int dZone;
 
@@ -34,26 +34,24 @@ public class Activity {
         dType = mapActivity(type);
     }
 
-    private String mapActivity(String code) {
+    private ActivityType mapActivity(String code) {
         switch (code) {
             case "0":
-                return "shop";
+                return ActivityType.SHOP;
+            case "2":
             case "6":
             case "13":
             case "18":
-            case "2":
-            case "12":
-            case "15":
-            case "16":
-                return "home";
+            	return ActivityType.HOME;
             case "7":
-            case "17":
             case "8":
+            case "17":
+            	return ActivityType.WORK;
             case "14":
             case "19":
-                return "work";
+            	return ActivityType.STUDY_CHILD;
             default:
-                return "leisure";
+            	return ActivityType.LEISURE;
         }
     }
 }

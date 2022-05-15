@@ -1,4 +1,5 @@
 import model.Activity;
+import model.ActivityType;
 import model.Building;
 import model.Person;
 import org.locationtech.proj4j.BasicCoordinateTransform;
@@ -97,14 +98,7 @@ public class MatsimGenerator {
                         writer.write("\t\t\t<leg mode=\"" + a.getModeBefore() + "\"/>\n");
                     }
 
-                    Building b;
-                    if (a.getOType().equals("home")) {
-                        b = osm.getRandomResidential(a.getOZone());
-                    } else if (a.getOType().equals("work")) {
-                        b = osm.getRandomWorkplace(a.getOZone());
-                    } else {
-                        b = osm.getRandomWorkplace(a.getOZone());
-                    }
+                    Building b = osm.getRandomBuilding(a.getOType(), a.getOZone());
                     srcCoord = new ProjCoordinate(b.getLongitude(), b.getLatitude());
                     transform.transform(srcCoord, dstCoord);
 
@@ -114,13 +108,7 @@ public class MatsimGenerator {
 
                     if (i == p.getActivities().size() - 1) {
                         writer.write("\t\t\t<leg mode=\"" + a.getModeBefore() + "\"/>\n");
-                        if (a.getDType().equals("home")) {
-                            b = osm.getRandomResidential(a.getDZone());
-                        } else if (a.getDType().equals("work")) {
-                            b = osm.getRandomWorkplace(a.getDZone());
-                        } else {
-                            b = osm.getRandomWorkplace(a.getDZone());
-                        }
+                        b = osm.getRandomBuilding(a.getDType(), a.getDZone());
                         srcCoord = new ProjCoordinate(b.getLongitude(), b.getLatitude());
                         transform.transform(srcCoord, dstCoord);
                         writer.write("\t\t\t<activity type=\"" + a.getDType() + "\" ");
@@ -131,6 +119,9 @@ public class MatsimGenerator {
                 writer.write("\t\t</plan>\n");
                 writer.write("\t</person>\n");
             }
+            
+            writeRandomFreight(writer);
+            
             writer.write("</population>\n");
             writer.close();
         } catch (IOException e) {
@@ -143,5 +134,60 @@ public class MatsimGenerator {
         dstCoord = new ProjCoordinate();
         transform.transform(srcCoord, dstCoord);
         return dstCoord;
+    }
+    
+    private static void writeRandomFreight(BufferedWriter writer) throws IOException {
+    	Map<Building, Integer> counts = new HashMap<>();
+    	Map<ProjCoordinate, Integer> plausibility = new HashMap<>();
+    	
+    	ProjCoordinate p = transformFromWGS84(50.4151, -4.2497);
+    	counts.put(new Building(p.x, p.y, "Saltash", -99), 3000);
+    	
+    	p = transformFromWGS84(50.4453, -4.1088);
+    	counts.put(new Building(p.x, p.y, "North", -99), 1200);
+    	
+    	p = transformFromWGS84(50.3807, -4.0010);
+    	counts.put(new Building(p.x, p.y, "London", -99), 3700);
+    	
+    	p = transformFromWGS84(50.3545, -4.0510);
+    	counts.put(new Building(p.x, p.y, "South", -99), 1500);
+    	
+    	Random r = new Random(12353);
+    	
+    	for (var entry : counts.entrySet()) {
+    		for (int i = 0; i < entry.getValue(); i++) {
+    			int sec = r.nextInt(108000);
+    			if (sec < 21600 || sec > 93600) {
+    				continue;
+    			}
+    			
+    			Building dest = null;
+    			int dice = r.nextInt(counts.values().stream().reduce(0, Integer::sum) - entry.getValue());
+    			for (var cand : counts.entrySet()) {
+    				if (cand.getKey().equals(entry.getKey())) {
+    					continue;
+    				}
+    				dice -= cand.getValue();
+    				if (dice < 0) {
+    					dest = cand.getKey();
+    				}
+    			}
+    			
+    			int hour = sec / 60 / 60;
+    			int minute = sec / 60 % 60;
+    			int second = sec / 3600;
+    			
+    			writer.write("\t<person id=\"" + entry.getKey().getType() + i + "\">\n");
+                writer.write("\t\t<plan selected=\"yes\">\n");
+                writer.write("\t\t\t<activity type=\"home\" ");
+                writer.write("x=\"" + entry.getKey().getLatitude() + "\" y=\"" + entry.getKey().getLongitude() + "\" ");
+                writer.write("end_time=\"" + hour + ":" + minute + ":" + second + "\"/>\n");
+                writer.write("\t\t\t<leg mode=\"car\"/>\n");
+                writer.write("\t\t\t<activity type=\"work\" ");
+                writer.write("x=\"" + dest.getLatitude() + "\" y=\"" + dest.getLongitude() + "\" ");
+                writer.write("\t\t</plan>\n");
+                writer.write("\t</person>\n");
+    		}
+    	}
     }
 }

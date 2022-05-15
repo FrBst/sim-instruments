@@ -1,0 +1,15 @@
+[out:xml][timeout:250];{{geocodeArea:Plymouth UK}}->.searchArea;
+(node["amenity"~"language_school|library|music_school|toy_library|school"](area.searchArea);
+ way["amenity"~"language_school|library|music_school|toy_library|school"](area.searchArea);
+ 
+node["building"~"school"](area.searchArea);
+ way["building"~"school"](area.searchArea);
+ node["landuse"~"education"](area.searchArea);
+ way["landuse"~"education"](area.searchArea);
+ node["amenity"~"language_school|library|music_school|toy_library|school"](50.3997,-4.2480,50.4262,-4.2054);
+ way["amenity"~"language_school|library|music_school|toy_library|school"](50.3997,-4.2480,50.4262,-4.2054);
+ 
+node["building"~"school"](50.3997,-4.2480,50.4262,-4.2054);
+ way["building"~"school"](50.3997,-4.2480,50.4262,-4.2054);
+ node["landuse"~"education"](50.3997,-4.2480,50.4262,-4.2054);
+ way["landuse"~"education"](50.3997,-4.2480,50.4262,-4.2054););out body;>;out skel qt;

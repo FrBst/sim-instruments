@@ -2,6 +2,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import model.ActivityType;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -113,12 +115,16 @@ public class CemdapGenerator {
             // Is the person licensed to drive
             double License = (Age > 18 && r.nextDouble() < 0.74) ? 1.0 : 0.0;
             // Work TSZ
-            double WorkTSZ = (aemp == 1 ? osm.getRandomWorkZone() : -99);
+            double WorkTSZ = (aemp == 1 ? osm.getRandomZone(ActivityType.WORK) : -99);
             // School TSZ
             double SchTSZ;
             // TODO: School locations
             if (stu == 1) {
-                SchTSZ = r.nextInt(zonesX * zonesY);
+            	if (Age > 18)
+            		// TODO: == work
+            		SchTSZ = osm.getRandomZone(ActivityType.STUDY_ADULT);
+            	else
+            		SchTSZ = osm.getRandomZone(ActivityType.STUDY_CHILD);
             } else {
                 SchTSZ = -99;
             }
@@ -289,7 +295,7 @@ public class CemdapGenerator {
             //Total number of HH vehicles, including motorcycles and RVs
             double NVEH = (pvehavbl == 1 ? 1 : 0);
             //Home TSZ location
-            double HOMETSZ = osm.getRandomResidentialZone();
+            double HOMETSZ = osm.getRandomZone(ActivityType.HOME);
             //Number of children
             double NCHILD = 0;
             //household structure

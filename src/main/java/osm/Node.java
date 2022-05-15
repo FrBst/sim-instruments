@@ -2,6 +2,8 @@ package osm;
 
 import lombok.Data;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.*;
 
 @Data
@@ -13,4 +15,6 @@ public class Node {
     public double lat;
     @XmlAttribute(name = "lon")
     public double lon;
+    @XmlElement(name = "tag")
+    public List<Tag> tags;
 }

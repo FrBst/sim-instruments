@@ -1,0 +1,21 @@
+[out:xml][timeout:250];{{geocodeArea:Plymouth UK}}->.searchArea;
+(node["amenity"~"bar|biergarten|cafe|fast_food|food_court|ice_cream|pub|restaurant|library|toy_library|car_wash|vehicle_inspection|fuel|bank|clinic|dentist|doctors|hospital|social_facility|veterinary|arts_centre|brothel|casino|cinema|community_centre|conference_centre|events_venue|gambling|love_hotel|planetarium|social_centre|stripclub|swingerclub|theatre|dive_centre|internet_cafe|place_of_worship|public_bath"](area.searchArea);
+ way["amenity"~"bar|biergarten|cafe|fast_food|food_court|ice_cream|pub|restaurant|library|toy_library|car_wash|vehicle_inspection|fuel|bank|clinic|dentist|doctors|hospital|social_facility|veterinary|arts_centre|brothel|casino|cinema|community_centre|conference_centre|events_venue|gambling|love_hotel|planetarium|social_centre|stripclub|swingerclub|theatre|dive_centre|internet_cafe|place_of_worship|public_bath"](area.searchArea);
+ 
+node["building"~"cathedral|chapel|church|kingdom_hall|mosque|synagogue|hospital"](area.searchArea);
+ way["building"~"cathedral|chapel|church|kingdom_hall|mosque|synagogue|hospital"](area.searchArea);
+ node["landuse"~"commercial|recreation_ground|religious|retail"](area.searchArea);
+ way["landuse"~"commercial|recreation_ground|religious|retail"](area.searchArea);
+ node[tourism](area.searchArea);
+ way[tourism](area.searchArea);node[leisure](area.searchArea);
+ way[leisure](area.searchArea);
+node["amenity"~"bar|biergarten|cafe|fast_food|food_court|ice_cream|pub|restaurant|library|toy_library|car_wash|vehicle_inspection|fuel|bank|clinic|dentist|doctors|hospital|social_facility|veterinary|arts_centre|brothel|casino|cinema|community_centre|conference_centre|events_venue|gambling|love_hotel|planetarium|social_centre|stripclub|swingerclub|theatre|dive_centre|internet_cafe|place_of_worship|public_bath"](50.3997,-4.2480,50.4262,-4.2054);
+ way["amenity"~"bar|biergarten|cafe|fast_food|food_court|ice_cream|pub|restaurant|library|toy_library|car_wash|vehicle_inspection|fuel|bank|clinic|dentist|doctors|hospital|social_facility|veterinary|arts_centre|brothel|casino|cinema|community_centre|conference_centre|events_venue|gambling|love_hotel|planetarium|social_centre|stripclub|swingerclub|theatre|dive_centre|internet_cafe|place_of_worship|public_bath"](50.3997,-4.2480,50.4262,-4.2054);
+ 
+node["building"~"cathedral|chapel|church|kingdom_hall|mosque|synagogue|hospital"](50.3997,-4.2480,50.4262,-4.2054);
+ way["building"~"cathedral|chapel|church|kingdom_hall|mosque|synagogue|hospital"](50.3997,-4.2480,50.4262,-4.2054);
+ node["landuse"~"commercial|recreation_ground|religious|retail"](50.3997,-4.2480,50.4262,-4.2054);
+ way["landuse"~"commercial|recreation_ground|religious|retail"](50.3997,-4.2480,50.4262,-4.2054);
+ node[tourism](50.3997,-4.2480,50.4262,-4.2054);
+ way[tourism](50.3997,-4.2480,50.4262,-4.2054);node[leisure](50.3997,-4.2480,50.4262,-4.2054);
+ way[leisure](50.3997,-4.2480,50.4262,-4.2054););out body;>;out skel qt;

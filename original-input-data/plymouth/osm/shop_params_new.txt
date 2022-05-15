@@ -1,0 +1,19 @@
+[out:xml][timeout:250];{{geocodeArea:Plymouth UK}}->.searchArea;
+(node["amenity"~"fuel|charging|station|pharmacy|veterinary"](area.searchArea);
+ way["amenity"~"fuel|charging|station|pharmacy|veterinary"](area.searchArea);
+ 
+node["building"~"commercial|industrial|retail|supermarket"](area.searchArea);
+ way["building"~"commercial|industrial|retail|supermarket"](area.searchArea);
+ node["landuse"~"commercial|retail"](area.searchArea);
+ way["landuse"~"commercial|retail"](area.searchArea);
+ node[shop](area.searchArea);
+ way[shop](area.searchArea);
+ node["amenity"~"fuel|charging|station|pharmacy|veterinary"](50.3997,-4.2480,50.4262,-4.2054);
+ way["amenity"~"fuel|charging|station|pharmacy|veterinary"](50.3997,-4.2480,50.4262,-4.2054);
+ 
+node["building"~"commercial|industrial|retail|supermarket"](50.3997,-4.2480,50.4262,-4.2054);
+ way["building"~"commercial|industrial|retail|supermarket"](50.3997,-4.2480,50.4262,-4.2054);
+ node["landuse"~"commercial|retail"](50.3997,-4.2480,50.4262,-4.2054);
+ way["landuse"~"commercial|retail"](50.3997,-4.2480,50.4262,-4.2054);
+ node[shop](50.3997,-4.2480,50.4262,-4.2054);
+ way[shop](50.3997,-4.2480,50.4262,-4.2054););out body;>;out skel qt;

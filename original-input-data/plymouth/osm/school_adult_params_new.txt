@@ -1,0 +1,14 @@
+[out:xml][timeout:250];{{geocodeArea:Plymouth UK}}->.searchArea;
+(node["amenity"~"college|driving_school|language_school|library|music_school|university"](area.searchArea);
+ way["amenity"~"college|driving_school|language_school|library|music_school|university"](area.searchArea);
+ 
+node["building"~"college|university|school"](area.searchArea);
+ way["building"~"college|university|school"](area.searchArea);
+ node["landuse"~"education"](area.searchArea);
+ way["landuse"~"education"](area.searchArea);node["amenity"~"college|driving_school|language_school|library|music_school|university"](50.3997,-4.2480,50.4262,-4.2054);
+ way["amenity"~"college|driving_school|language_school|library|music_school|university"](50.3997,-4.2480,50.4262,-4.2054);
+ 
+node["building"~"college|university|school"](50.3997,-4.2480,50.4262,-4.2054);
+ way["building"~"college|university|school"](50.3997,-4.2480,50.4262,-4.2054);
+ node["landuse"~"education"](50.3997,-4.2480,50.4262,-4.2054);
+ way["landuse"~"education"](50.3997,-4.2480,50.4262,-4.2054););out body;>;out skel qt;
