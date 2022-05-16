@@ -33,7 +33,7 @@ public class CountsGenerator {
     private static Map<String, LinkHourlyCount> base = new HashMap<>();
     private static Map<String, List<Link>> mapping = new HashMap<>();
     private static Map<String, osm.Node> refs = new HashMap<>();
-    private static int coef = 10; // Population scale.
+    public static final int coef = 10; // Population scale.
     private static Network net = ScenarioUtils.loadScenario(ConfigUtils.loadConfig( "scenarios/plymouth/output_network_config.xml")).getNetwork();
 
     public static void gunzip(Path fin) throws IOException {
@@ -122,9 +122,6 @@ public class CountsGenerator {
     }
 
     private static List<Link> getBestWays(double lat, double lon) {
-//        Map<Way, Double> distSq = new HashMap<>();
-        
-
         ProjCoordinate station = MatsimGenerator.transformFromWGS84(lat, lon);
         Coord c = new Coord(station.x, station.y);
         
@@ -133,58 +130,6 @@ public class CountsGenerator {
         		.flatMap(s -> s.stream())
         		.collect(Collectors.toList());
         return links;
-//        for (Way l : )) {
-//            List<Node> nodes = w.getNds().stream()
-//                    .map(nd -> refs.get(nd.getRef())).collect(Collectors.toList());
-//
-//            double minD = Integer.MAX_VALUE;
-//            int minI = 0;
-//            Node n;
-//            for (int i = 0; i < nodes.size(); i++) {
-//                n = nodes.get(i);
-//                double d = (n.lat - lat) * (n.lat - lat) + (n.lon - lon) * (n.lon - lon);
-//                if (d < minD) {
-//                    minD = d;
-//                    minI = i;
-//                }
-//            }
-//
-//            Node clos1, clos2;
-//            if (minI == 0) {
-//                clos1 = nodes.get(minI);
-//                clos2 = nodes.get(minI+1);
-//            } else if (minI == nodes.size()-1) {
-//                clos1 = nodes.get(minI-1);
-//                clos2 = nodes.get(minI);
-//            } else {
-//                Node n1 = nodes.get(minI-1);
-//                Node n2 = nodes.get(minI+1);
-//                if (((n1.lat - lat) * (n1.lat - lat) + (n1.lon - lon) * (n1.lon - lon)) > ((n2.lat - lat) * (n2.lat - lat) + (n2.lon - lon) * (n2.lon - lon))) {
-//                    clos1 = nodes.get(minI);
-//                    clos2 = n2;
-//                } else {
-//                    clos1 = n1;
-//                    clos2 = nodes.get(minI);
-//                }
-//            }
-//
-//            distSq.put(new Way(null, new ArrayList<>(Arrays.asList(new Nd(clos1.getId()), new Nd(clos2.getId()))), null), minD);
-//
-//            double min = Double.MAX_VALUE;
-//            for (Nd nd : w.getNds()) {
-//                Node n = refs.get(nd.getRef());
-//                double temp = (n.lat - lat) * (n.lat - lat) + (n.lon - lon) * (n.lon - lon);
-//                if (temp < min) { min = temp; }
-//            }
-//
-//            distSq.put(w, min);
-//        }
-//
-//        return distSq.entrySet().stream()
-//                .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
-//                .limit(2)
-//                .map(Map.Entry::getKey)
-//                .collect(Collectors.toList());
     }
 
     public static Map<String, LinkHourlyCount> readData(String countsFile) throws IOException {

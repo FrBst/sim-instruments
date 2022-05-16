@@ -9,12 +9,11 @@ public class RunMatsim {
     public static void main(String[] args) {
         Config config;
         if ( args==null || args.length==0 || args[0]==null ){
-            config = ConfigUtils.loadConfig( "scenarios\\plymouth\\config.xml" );
+            config = ConfigUtils.loadConfig( "scenarios/plymouth/config.xml" );
         } else {
             config = ConfigUtils.loadConfig( args );
         }
 
-        config.controler().setOverwriteFileSetting( OutputDirectoryHierarchy.OverwriteFileSetting.deleteDirectoryIfExists );
         Scenario scenario = ScenarioUtils.loadScenario(config) ;
         Controler controler = new Controler( scenario ) ;
         controler.run();

@@ -4,7 +4,7 @@
 				<!ENTITY INPUTBASE  "./">
 				<!ENTITY OUTPUTBASE "./output/">
 				<!ENTITY SCENARIO "plymouth">
-				<!ENTITY SEED	"0">
+				<!ENTITY SEED	"315">
 				<!ENTITY COEF	"0.1">
 				]
 		>
@@ -107,11 +107,11 @@
 		<param name="endTime" value="30:00:00" />
 		<param name="flowCapacityFactor" value="&COEF;" /> <!-- TODO: 1% population -->
 		<param name="mainMode" value="car" />
-		<param name="storageCapacityFactor" value="&COEF;" /> <!-- TODO: 1% population -->
+		<param name="storageCapacityFactor" value="0.3" /> <!-- TODO: 1% population -->
 		<!-- time in seconds.  Time after which the frontmost vehicle on a link is called `stuck' if it does not move. Set to Integer.MAX_VALUE to disable this behavior -->
 		<param name="stuckTime" value="10" />
 		<!-- treats PT as deterministic. PT vehicles will run with a steady speed. Should be used with separate network layers for PT and other network modes. -->
-		<param name="useDeterministicPt" value="false" /> <!-- TODO: (note) pretty clever solution to make pt more desirable. Too bad! Actually, maybe we can just turn it on and pray -->
+		<param name="useDeterministicPt" value="true" /> <!-- TODO: (note) pretty clever solution to make pt more desirable. Too bad! Actually, maybe we can just turn it on and pray -->
 	</module>
 	<module name="households" >
 		<param name="inputFile" value="null" />
@@ -161,7 +161,7 @@
 			<param name="lateArrival" value="-18.0" />
 			<param name="marginalUtilityOfMoney" value="1.0" />
 			<param name="performing" value="6.0" />
-			<param name="subpopulation" value="null" />
+			<param name="subpopulation" value="default" />
 			<param name="utilityOfLineSwitch" value="-1.0" />
 			<param name="waiting" value="-0.0" />
 			<param name="waitingPt" value="-6.0" />
@@ -171,7 +171,7 @@
 				<param name="minimalDuration" value="04:00:00" />
 				<param name="scoringThisActivityAtAll" value="true" />
 				<param name="typicalDurationScoreComputation" value="relative" />
-				<param name="priority" value="0.8" />
+				<param name="priority" value="1.0" />
 			</parameterset>
 			<parameterset type="activityParams" >
 				<param name="activityType" value="work" />
@@ -202,6 +202,18 @@
 				<param name="openingTime" value="08:00:00" />
 				<param name="typicalDuration" value="2:00:00" />
 				<param name="priority" value="0.5" />
+				<param name="scoringThisActivityAtAll" value="true" />
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+			<parameterset type="activityParams" >
+				<param name="activityType" value="study" />
+				<param name="closingTime" value="19:00:00" />
+				<param name="earliestEndTime" value="14:00:00" />
+				<param name="latestStartTime" value="10:00:00" />
+				<param name="minimalDuration" value="04:00:00" />
+				<param name="openingTime" value="08:00:00" />
+				<param name="typicalDuration" value="06:00:00" />
+				<param name="priority" value="1.0" />
 				<param name="scoringThisActivityAtAll" value="true" />
 				<param name="typicalDurationScoreComputation" value="relative" />
 			</parameterset>
@@ -267,6 +279,47 @@
 				<param name="monetaryDistanceRate" value="0.0" />
 			</parameterset>
 		</parameterset>
+		
+		<parameterset type="scoringParameters" >
+			<param name="earlyDeparture" value="-0.0" />
+			<param name="lateArrival" value="-18.0" />
+			<param name="marginalUtilityOfMoney" value="1.0" />
+			<param name="performing" value="6.0" />
+			<param name="subpopulation" value="freight" />
+			<param name="utilityOfLineSwitch" value="-1.0" />
+			<param name="waiting" value="-0.0" />
+			<param name="waitingPt" value="-6.0" />
+			<parameterset type="activityParams" >
+				<param name="activityType" value="home" />
+				<param name="typicalDuration" value="12:00:00" />
+				<param name="minimalDuration" value="04:00:00" />
+				<param name="scoringThisActivityAtAll" value="true" />
+				<param name="typicalDurationScoreComputation" value="relative" />
+				<param name="priority" value="1.0" />
+			</parameterset>
+			<parameterset type="activityParams" >
+				<param name="activityType" value="warehouse" />
+				<param name="closingTime" value="24:00:00" />
+				<param name="earliestEndTime" value="8:00:00" />
+				<param name="latestStartTime" value="19:00:00" />
+				<param name="minimalDuration" value="1:00:00" />
+				<param name="openingTime" value="06:00:00" />
+				<param name="typicalDuration" value="03:30:00" />
+				<param name="priority" value="1.0" />
+				<param name="scoringThisActivityAtAll" value="true" />
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+
+			<parameterset type="modeParams" >
+				<param name="constant" value="0.0" />
+				<param name="dailyMonetaryConstant" value="0.0" />
+				<param name="dailyUtilityConstant" value="0.0" />
+				<param name="marginalUtilityOfDistance_util_m" value="0.0" />
+				<param name="marginalUtilityOfTraveling_util_hr" value="-6.0" />
+				<param name="mode" value="car" />
+				<param name="monetaryDistanceRate" value="0.0" />
+			</parameterset>
+		</parameterset>
 	</module>
 	<module name="plans" >
 		<!-- String: minOfDurationAndEndTime tryEndTimeThenDuration endTimeOnly. Anything besides minOfDurationAndEndTime will internally use a different (simpler) version of the TimeAllocationMutator. -->
@@ -275,7 +328,7 @@
 		<param name="handlingOfPlansWithoutRoutingMode" value="reject" /> <!-- TODO: My generated files should not have such plans -->
 		<!-- The Coordinates Reference System in which the coordinates are expressed in the input file. At import, the coordinates will be converted to the coordinate system defined in "global", and willbe converted back at export. If not specified, no conversion happens. -->
 		<param name="inputCRS" value="null" />
-		<param name="inputPersonAttributesFile" value="null" />
+		<param name="inputPersonAttributesFile" value="null" /> <!-- TODO: subpop &INPUTBASE;/personAttributes.xml-->
 		<param name="inputPlansFile" value="&INPUTBASE;/plans.xml" /> <!-- TODO: file -->
 		<param name="insistingOnUsingDeprecatedPersonAttributeFile" value="false" />
 		<!-- Defines how routes are stored in memory. Currently supported: LinkNetworkRoute, CompressedNetworkRoute. -->
@@ -409,7 +462,7 @@
 			<!-- strategyName of strategy.  Possible default names: SelectRandom BestScore KeepLastSelected ChangeExpBeta SelectExpBeta SelectPathSizeLogit      (selectors), ReRouteTimeAllocationMutatorTimeAllocationMutator_ReRouteChangeSingleTripModeChangeTripModeSubtourModeChoice (innovative strategies). -->
 			<param name="strategyName" value="ChangeExpBeta" />
 			<!-- subpopulation to which the strategy applies. "null" refers to the default population, that is, the set of persons for which no explicit subpopulation is defined (ie no subpopulation attribute) -->
-			<param name="subpopulation" value="null" />
+			<param name="subpopulation" value="default" />
 			<!-- weight of a strategy: for each agent, a strategy will be selected with a probability proportional to its weight -->
 			<param name="weight" value="0.7" />
 		</parameterset>
@@ -417,7 +470,25 @@
 <!--			<param name="disableAfterIteration" value="350" />-->
 			<param name="executionPath" value="null" />
 			<param name="strategyName" value="ReRoute" />
-			<param name="subpopulation" value="null" />
+			<param name="subpopulation" value="default" />
+			<param name="weight" value="0.3" />
+		</parameterset>
+		<parameterset type="strategysettings">
+			<param name="strategyName" value="SubtourModeChoice" />
+			<param name="weight" value="0.1" />
+			<param name="disableAfterIteration" value="90" />
+			<param name="subpopulation" value="default" />
+		</parameterset>
+		<parameterset type="strategysettings" >
+			<param name="executionPath" value="null" />
+			<param name="strategyName" value="ChangeExpBeta" />
+			<param name="subpopulation" value="freight" />
+			<param name="weight" value="0.7" />
+		</parameterset>
+		<parameterset type="strategysettings" >
+			<param name="executionPath" value="null" />
+			<param name="strategyName" value="ReRoute" />
+			<param name="subpopulation" value="freight" />
 			<param name="weight" value="0.3" />
 		</parameterset>
 	</module>
@@ -442,14 +513,14 @@
 		<!-- Comma-separated list of transportation modes that are handled as transit. Defaults to 'pt'. -->
 		<param name="transitModes" value="pt" />
 		<!-- Input file containing the transit schedule to be simulated. -->
-		<param name="transitScheduleFile" value="./transitSchedule.xml" />  <!-- TODO: ... -->
+		<param name="transitScheduleFile" value="&INPUTBASE;/transitSchedule.xml" />  <!-- TODO: ... -->
 		<!-- Optional input file containing additional attributes for transit stop facilities, stored as ObjectAttributes. -->
 		<param name="transitStopsAttributesFile" value="null" />
 		<!-- Set this parameter to true if transit should be simulated, false if not. -->
 		<param name="useTransit" value="true" />  <!-- TODO: Sure pal -->
 		<param name="usingTransitInMobsim" value="true" />
 		<!-- Input file containing the vehicles used by the departures in the transit schedule. -->
-		<param name="vehiclesFile" value="./transitVehicles.xml" />  <!-- TODO: ... -->
+		<param name="vehiclesFile" value="&INPUTBASE;/transitVehicles.xml" />  <!-- TODO: ... -->
 	</module>
 	<module name="transitRouter" >
 		<!-- additional time the router allocates when a line switch happens. Can be interpreted as a 'safety' time that agents need to safely transfer from one line to another -->

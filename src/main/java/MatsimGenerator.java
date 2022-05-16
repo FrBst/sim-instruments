@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MatsimGenerator {
-    OSMData osm = new OSMData(10, 10);
+	private static OSMData osm;
     private static CRSFactory factory = new CRSFactory();
     private static CoordinateReferenceSystem srcCrs = factory.createFromName("EPSG:4326");
     private static CoordinateReferenceSystem dstCrs = factory.createFromName("EPSG:27700");
@@ -20,8 +20,9 @@ public class MatsimGenerator {
     private static ProjCoordinate srcCoord;
     private static ProjCoordinate dstCoord = new ProjCoordinate();
 
-    public MatsimGenerator() {
-        osm.init();
+    public MatsimGenerator(int x, int y) {
+    	osm = new OSMData(x, y);
+    	osm.init();
     }
 
     public void generatePlans() throws IOException {
@@ -54,7 +55,7 @@ public class MatsimGenerator {
             persons.get(personId).getActivities().add(a);
         }
 
-        write("scenarios/plymouth/plans.xml", new LinkedList<>(persons.values()));
+        write("scenarios/plymouth/plans.xml", "scenarios/plymouth/personAttributes.xml", new LinkedList<>(persons.values()));
 
         String hsdfsdf = "fsdfsdf";
     }
@@ -78,17 +79,25 @@ public class MatsimGenerator {
         return res;
     }
 
-    public void write(String filename, List<Person> persons) {
+    public void write(String plansFile, String attributesFile, List<Person> persons) {
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(plansFile));
+        		BufferedWriter writerAttr = new BufferedWriter(new FileWriter(attributesFile)))
+        {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                     "<!DOCTYPE population SYSTEM \"http://www.matsim.org/files/dtd/population_v6.dtd\">\n" +
                     "\n" +
                     "<population>\n");
+            writerAttr.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                    "<!DOCTYPE objectAttributes SYSTEM \" \"http://matsim.org/files/dtd/objectattributes_v1.dtd\">\n" +
+                    "\n" +
+                    "<objectAttributes>\n");
 
             for (Person p : persons) {
                 writer.write("\t<person id=\"" + p.getPid() + "\">\n");
+                writer.write("\t\t<attributes>\n");
+                writer.write("\t\t\t<attribute name=\"subpopulation\" class=\"java.lang.String\">default</attribute>\n");
+                writer.write("\t\t</attributes>\n");
                 writer.write("\t\t<plan selected=\"yes\">\n");
 
                 p.getActivities().sort(Comparator.comparingInt(Activity::getOEndTime));
@@ -99,31 +108,31 @@ public class MatsimGenerator {
                     }
 
                     Building b = osm.getRandomBuilding(a.getOType(), a.getOZone());
-                    srcCoord = new ProjCoordinate(b.getLongitude(), b.getLatitude());
-                    transform.transform(srcCoord, dstCoord);
 
                     writer.write("\t\t\t<activity type=\"" + a.getOType() + "\" ");
-                    writer.write("x=\"" + dstCoord.x + "\" y=\"" + dstCoord.y + "\" ");
+                    writer.write("x=\"" + b.getLatitude() + "\" y=\"" + b.getLongitude() + "\" ");
                     writer.write("end_time=\"" + (180 + a.getOEndTime()) / 60 % 24 + ":" + a.getOEndTime() % 60 + ":00\"/>\n");
 
                     if (i == p.getActivities().size() - 1) {
                         writer.write("\t\t\t<leg mode=\"" + a.getModeBefore() + "\"/>\n");
                         b = osm.getRandomBuilding(a.getDType(), a.getDZone());
-                        srcCoord = new ProjCoordinate(b.getLongitude(), b.getLatitude());
-                        transform.transform(srcCoord, dstCoord);
                         writer.write("\t\t\t<activity type=\"" + a.getDType() + "\" ");
-                        writer.write("x=\"" + dstCoord.x + "\" y=\"" + dstCoord.y + "\"/>\n");
+                        writer.write("x=\"" + b.getLatitude() + "\" y=\"" + b.getLongitude() + "\"/>\n");
                     }
                 }
 
                 writer.write("\t\t</plan>\n");
                 writer.write("\t</person>\n");
+                
+                writerAttr.write("\t<object id=\"" + p.getPid() + "\">\n");
+                writerAttr.write("\t\t<attribute name=\"subpopulation\" class=\"java.lang.String\">default</attribute>\n");
+                writerAttr.write("\t</object>\n");
             }
             
-            writeRandomFreight(writer);
+            writeRandomFreight(writer, writerAttr);
             
             writer.write("</population>\n");
-            writer.close();
+            writerAttr.write("</objectAttributes>");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,9 +145,8 @@ public class MatsimGenerator {
         return dstCoord;
     }
     
-    private static void writeRandomFreight(BufferedWriter writer) throws IOException {
+    private static void writeRandomFreight(BufferedWriter writer, BufferedWriter writerAttr) throws IOException {
     	Map<Building, Integer> counts = new HashMap<>();
-    	Map<ProjCoordinate, Integer> plausibility = new HashMap<>();
     	
     	ProjCoordinate p = transformFromWGS84(50.4151, -4.2497);
     	counts.put(new Building(p.x, p.y, "Saltash", -99), 3000);
@@ -157,36 +165,37 @@ public class MatsimGenerator {
     	for (var entry : counts.entrySet()) {
     		for (int i = 0; i < entry.getValue(); i++) {
     			int sec = r.nextInt(108000);
-    			if (sec < 21600 || sec > 93600) {
+    			if (sec < 14400 || sec > 93600) {
     				continue;
     			}
     			
-    			Building dest = null;
-    			int dice = r.nextInt(counts.values().stream().reduce(0, Integer::sum) - entry.getValue());
-    			for (var cand : counts.entrySet()) {
-    				if (cand.getKey().equals(entry.getKey())) {
-    					continue;
-    				}
-    				dice -= cand.getValue();
-    				if (dice < 0) {
-    					dest = cand.getKey();
-    				}
-    			}
+    			Building dest = osm.getRandomBuilding(ActivityType.WORK, osm.getRandomZone(ActivityType.WORK));
     			
     			int hour = sec / 60 / 60;
     			int minute = sec / 60 % 60;
     			int second = sec / 3600;
     			
     			writer.write("\t<person id=\"" + entry.getKey().getType() + i + "\">\n");
+                writer.write("\t\t<attributes>\n");
+                writer.write("\t\t\t<attribute name=\"subpopulation\" class=\"java.lang.String\">freight</attribute>\n");
+                writer.write("\t\t</attributes>\n");
                 writer.write("\t\t<plan selected=\"yes\">\n");
                 writer.write("\t\t\t<activity type=\"home\" ");
                 writer.write("x=\"" + entry.getKey().getLatitude() + "\" y=\"" + entry.getKey().getLongitude() + "\" ");
                 writer.write("end_time=\"" + hour + ":" + minute + ":" + second + "\"/>\n");
                 writer.write("\t\t\t<leg mode=\"car\"/>\n");
-                writer.write("\t\t\t<activity type=\"work\" ");
+                writer.write("\t\t\t<activity type=\"warehouse\" ");
                 writer.write("x=\"" + dest.getLatitude() + "\" y=\"" + dest.getLongitude() + "\" ");
+                writer.write("end_time=\"" + (hour+3) + ":" + minute + ":" + second + "\"/>\n");
+                writer.write("\t\t\t<leg mode=\"car\"/>\n");
+                writer.write("\t\t\t<activity type=\"home\" ");
+                writer.write("x=\"" + entry.getKey().getLatitude() + "\" y=\"" + entry.getKey().getLongitude() + "\"/>\n");
                 writer.write("\t\t</plan>\n");
                 writer.write("\t</person>\n");
+                
+                writerAttr.write("\t<object id=\"" + entry.getKey().getType() + i + "\">\n");
+                writerAttr.write("\t\t<attribute name=\"subpopulation\" class=\"java.lang.String\">freight</attribute>\n");
+                writerAttr.write("\t</object>\n");
     		}
     	}
     }

@@ -16,14 +16,14 @@
 		<param name="keepWaysWithPublicTransit" value="true" />
 		<param name="maxLinkLength" value="500.0" />
 		<!-- The path to the osm file. -->
-		<param name="osmFile" value="/home/vit/eclipse-workspace/sim-instruments/original-input-data/plymouth/osm/xapi_meta" />
+		<param name="osmFile" value="/home/vit/eclipse-workspace/sim-instruments/original-input-data/plymouth/osm/interpreter" />
 		<!-- Output coordinate system. EPSG:* codes are supported and recommended.
 		Use 'WGS84' for no transformation (though this may lead to errors with PT mapping). -->
 		<param name="outputCoordinateSystem" value="EPSG:27700" />
 		<!-- CSV file containing the full geometry (including start end end node) for each link.
 		This file can be used for visualization purposes in Simunto Via or GIS software. -->
 		<param name="outputDetailedLinkGeometryFile" value="null" />
-		<param name="outputNetworkFile" value="/home/vit/eclipse-workspace/sim-instruments/scenarios/plymouth/network.xml" />
+		<param name="outputNetworkFile" value="/home/vit/eclipse-workspace/sim-instruments/network.xml" />
 		<!-- In case the speed limit allowed does not represent the speed a vehicle can actually realize,
 		e.g. by constrains of traffic lights not explicitly modeled, a kind of "average simulated speed" can be used.
 		Defaults to false. Set true to scale the speed limit down by the value specified by the wayDefaultParams) -->

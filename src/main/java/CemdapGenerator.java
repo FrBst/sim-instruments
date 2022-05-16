@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 
 public class CemdapGenerator {
 
-    static final int zonesX = 10;
-    static final int zonesY = zonesX;
+    static final int zonesX = 24;
+    static final int zonesY = 16;
     static int[][] residents = new int[zonesX][zonesY];
     static int[][] workplaces = new int[zonesX][zonesY];
 
     public void main() {
-        String[] dbScript = generateCemdapData(26210);
+        String[] dbScript = generateCemdapData(26320);
     }
 
     private String[] generateCemdapData(int n) {
@@ -59,29 +59,6 @@ public class CemdapGenerator {
                 los.getLast().add(5.0);
                 los.getLast().add(29.0);
             }
-        }
-
-        for (int i = 0; i < zonesY * zonesX; i++) {
-            zones.add(new LinkedHashMap<>());
-            zones.get(i).put("ZONEID", (double) i);
-            zones.get(i).put("SHOPDIST", 1.0);
-            zones.get(i).put("REMPACC", 1.0);
-            zones.get(i).put("RSEMPACC", 1.0);
-            zones.get(i).put("TEMPACC", 1.0);
-            zones.get(i).put("POPACC", 1.0);
-            zones.get(i).put("DALCBD", 0.0);
-            zones.get(i).put("FWCBD", 0.0);
-            zones.get(i).put("MEDINC", 20.0);
-            zones.get(i).put("NUMHH", 1000.0);
-            zones.get(i).put("NUMPERS", 10000.0);
-            zones.get(i).put("BEMP", 1.0);
-            zones.get(i).put("REMP", 1.0);
-            zones.get(i).put("SEMP", 1.0);
-            zones.get(i).put("TOTEMP", 1.0);
-            zones.get(i).put("PARKCOST", 3.0);
-            zones.get(i).put("COUNTY", 1.0);
-            zones.get(i).put("SPLLUSE", 1.0);
-            zones.get(i).put("INTERNAL", 1.0);
         }
 
         OSMData osm = new OSMData(zonesX, zonesY);
@@ -388,6 +365,45 @@ public class CemdapGenerator {
 
             households.add(h);
         }
+        
+        List<Integer> shopping = osm.getTop(ActivityType.SHOP);
+        List<Integer> shopCounts = osm.getCount(ActivityType.SHOP);
+        List<Integer> workCounts = osm.getCount(ActivityType.WORK);
+        List<Integer> homeCounts = osm.getCount(ActivityType.HOME);
+        int maxWork = workCounts.stream()
+        		.sorted(Comparator.reverseOrder())
+        		.limit(1)
+        		.findFirst().get();
+        
+        for (int i = 0; i < zonesY * zonesX; i++) {
+        	int temp = i;
+        	double closestShopDist = shopping.stream()
+        			.mapToDouble(z -> getDistance(temp, z))
+        			.sorted()
+        			.limit(1)
+        			.findFirst().getAsDouble();
+        	
+            zones.add(new LinkedHashMap<>());
+            zones.get(i).put("ZONEID", (double) i);
+            zones.get(i).put("SHOPDIST", closestShopDist);
+            zones.get(i).put("REMPACC", (double) (shopCounts.get(i) / CountsGenerator.coef));
+            zones.get(i).put("RSEMPACC", 1.0);
+            zones.get(i).put("TEMPACC", 1.0);
+            zones.get(i).put("POPACC", 1.0);
+            zones.get(i).put("DALCBD", 0.0);
+            zones.get(i).put("FWCBD", 0.0);
+            zones.get(i).put("MEDINC", ((double) workCounts.get(i) / maxWork) * 100000);
+            zones.get(i).put("NUMHH", (double) homeCounts.get(i) / CountsGenerator.coef);
+            zones.get(i).put("NUMPERS", (double) homeCounts.get(i) / CountsGenerator.coef);
+            zones.get(i).put("BEMP", 1.0);
+            zones.get(i).put("REMP", 1.0);
+            zones.get(i).put("SEMP", 1.0);
+            zones.get(i).put("TOTEMP", 1.0);
+            zones.get(i).put("PARKCOST", 3.0);
+            zones.get(i).put("COUNTY", 1.0);
+            zones.get(i).put("SPLLUSE", 1.0);
+            zones.get(i).put("INTERNAL", 1.0);
+        }
 
         List<String> outp = persons.stream().map(l -> "INSERT INTO public.persons(" +
                         "hid, pid, employed, studying, license, work_zon, stud_zon," +
@@ -460,5 +476,9 @@ public class CemdapGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    private double getDistance(int zone1, int zone2) {
+    	return 1.0 + Math.sqrt(Math.pow((zone1 % zonesX) - (zone2 % zonesX), 2) + Math.pow((zone1 / zonesX) - (zone2 / zonesX), 2));
     }
 }

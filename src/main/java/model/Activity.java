@@ -42,6 +42,9 @@ public class Activity {
             case "6":
             case "13":
             case "18":
+            case "12":
+            case "15":
+            case "16":
             	return ActivityType.HOME;
             case "7":
             case "8":

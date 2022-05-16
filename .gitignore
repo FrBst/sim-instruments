@@ -1,5 +1,4 @@
 minibus-output
-original-input-data/counts.csv
-original-input-data/plymouth/osm/xapi_meta
 output
 target
+original-input-data
