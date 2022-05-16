@@ -12,6 +12,9 @@ public class LinkHourlyCount {
     @Getter
     @Setter
     private String link;
+    @Getter
+    @Setter
+    private String stationNo;
 
     public LinkHourlyCount inc(int hour) {
         this.hour[hour]++;
@@ -33,9 +36,10 @@ public class LinkHourlyCount {
         return lhc;
     }
 
-    public static LinkHourlyCount linkInit(int hour, int cnt) {
+    public static LinkHourlyCount linkInit(String pointId, int hour, int cnt) {
         LinkHourlyCount lhc = new LinkHourlyCount();
         lhc.set(hour, cnt);
+        lhc.setStationNo(pointId);
         return lhc;
     }
 }

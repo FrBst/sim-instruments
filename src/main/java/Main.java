@@ -27,12 +27,12 @@ public class Main {
 //        new MatsimGenerator(24, 16).generatePlans();
 //        PtGenerator.readFromGtfs();
 //        PublicTransitMapper.main(new String[]{"PTMapperConfig.xml"});
-//        RunMatsim.main(new String[]{});
+        RunMatsim.main(new String[]{});
 //        PMain.main(new String[] {"scenarios/plymouth/config-minibus.xml"});
-        CountsGenerator.gunzip(Path.of("output/plymouth_0/plymouth_0.output_events.xml.gz"));
-
-        CountsGenerator.readData("original-input-data/counts.csv");
-        CountsGenerator.calculateError();
+//        CountsGenerator.gunzip(Path.of("output/plymouth_0/plymouth_0.output_events.xml.gz"));
+//
+//        CountsGenerator.readData("original-input-data/counts.csv");
+//        CountsGenerator.calculateError();
 //        CountsGenerator.readSpecifiedStations("original-input-data/counts.csv",
 //        		Arrays.asList(16989,27910,57823,70077,81374,38687));
     }

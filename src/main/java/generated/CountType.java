@@ -8,6 +8,7 @@
 
 package generated;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -84,6 +85,13 @@ public class CountType {
             volume = new ArrayList<VolumeType>();
         }
         return this.volume;
+    }
+    
+    public void addVolume(int hour, float count) {
+        if (volume == null) {
+            volume = new ArrayList<VolumeType>();
+        }
+        volume.add(new VolumeType(BigInteger.valueOf(hour), count));
     }
 
     /**

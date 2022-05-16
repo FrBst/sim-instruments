@@ -89,7 +89,7 @@ public class MatsimGenerator {
                     "\n" +
                     "<population>\n");
             writerAttr.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                    "<!DOCTYPE objectAttributes SYSTEM \" \"http://matsim.org/files/dtd/objectattributes_v1.dtd\">\n" +
+                    "<!DOCTYPE objectAttributes SYSTEM \"http://matsim.org/files/dtd/objectattributes_v1.dtd\">\n" +
                     "\n" +
                     "<objectAttributes>\n");
 

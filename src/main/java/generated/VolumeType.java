@@ -15,25 +15,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * <p>Java class for volumeType complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="volumeType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute name="h" use="required" type="{http://www.w3.org/2001/XMLSchema}positiveInteger" />
- *       &lt;attribute name="val" use="required" type="{}positiveFloat" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "volumeType")
 public class VolumeType {
@@ -43,45 +31,4 @@ public class VolumeType {
     protected BigInteger h;
     @XmlAttribute(name = "val", required = true)
     protected float val;
-
-    /**
-     * Gets the value of the h property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getH() {
-        return h;
-    }
-
-    /**
-     * Sets the value of the h property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setH(BigInteger value) {
-        this.h = value;
-    }
-
-    /**
-     * Gets the value of the val property.
-     * 
-     */
-    public float getVal() {
-        return val;
-    }
-
-    /**
-     * Sets the value of the val property.
-     * 
-     */
-    public void setVal(float value) {
-        this.val = value;
-    }
-
 }

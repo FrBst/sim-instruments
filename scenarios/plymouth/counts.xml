@@ -1,0 +1,959 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<counts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="http://matsim.org/files/dtd/counts_v1.xsd"
+ name="GB Traffic Counts" desc="Traffic counts for Plymouth, UK" year="2019"  > 
+<!-- ====================================================================== -->
+
+	<count loc_id="70289" cs_id="18061">
+		<volume h="8" val="2108.0" />
+		<volume h="9" val="2068.0" />
+		<volume h="10" val="1587.0" />
+		<volume h="11" val="1411.0" />
+		<volume h="12" val="1458.0" />
+		<volume h="13" val="1508.0" />
+		<volume h="14" val="1546.0" />
+		<volume h="15" val="1874.0" />
+		<volume h="16" val="2127.0" />
+		<volume h="17" val="2654.0" />
+		<volume h="18" val="3124.0" />
+		<volume h="19" val="1936.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="75893" cs_id="18061">
+		<volume h="8" val="2344.0" />
+		<volume h="9" val="2502.0" />
+		<volume h="10" val="1752.0" />
+		<volume h="11" val="1770.0" />
+		<volume h="12" val="1655.0" />
+		<volume h="13" val="1677.0" />
+		<volume h="14" val="1635.0" />
+		<volume h="15" val="1840.0" />
+		<volume h="16" val="2070.0" />
+		<volume h="17" val="2578.0" />
+		<volume h="18" val="2500.0" />
+		<volume h="19" val="1976.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="18871" cs_id="27910">
+		<volume h="8" val="1733.0" />
+		<volume h="9" val="2287.0" />
+		<volume h="10" val="1855.0" />
+		<volume h="11" val="1543.0" />
+		<volume h="12" val="1555.0" />
+		<volume h="13" val="1704.0" />
+		<volume h="14" val="1679.0" />
+		<volume h="15" val="1623.0" />
+		<volume h="16" val="1809.0" />
+		<volume h="17" val="2023.0" />
+		<volume h="18" val="2267.0" />
+		<volume h="19" val="1797.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="38365" cs_id="27910">
+		<volume h="8" val="1777.0" />
+		<volume h="9" val="1773.0" />
+		<volume h="10" val="1537.0" />
+		<volume h="11" val="1479.0" />
+		<volume h="12" val="1687.0" />
+		<volume h="13" val="1593.0" />
+		<volume h="14" val="1737.0" />
+		<volume h="15" val="1825.0" />
+		<volume h="16" val="1997.0" />
+		<volume h="17" val="2323.0" />
+		<volume h="18" val="2361.0" />
+		<volume h="19" val="1575.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="39388" cs_id="56224">
+		<volume h="8" val="1189.0" />
+		<volume h="9" val="1248.0" />
+		<volume h="10" val="1000.0" />
+		<volume h="11" val="928.0" />
+		<volume h="12" val="913.0" />
+		<volume h="13" val="1126.0" />
+		<volume h="14" val="1248.0" />
+		<volume h="15" val="1232.0" />
+		<volume h="16" val="1548.0" />
+		<volume h="17" val="1636.0" />
+		<volume h="18" val="1638.0" />
+		<volume h="19" val="1137.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="68740" cs_id="56224">
+		<volume h="8" val="1286.0" />
+		<volume h="9" val="1439.0" />
+		<volume h="10" val="1380.0" />
+		<volume h="11" val="1142.0" />
+		<volume h="12" val="1104.0" />
+		<volume h="13" val="1108.0" />
+		<volume h="14" val="1138.0" />
+		<volume h="15" val="1034.0" />
+		<volume h="16" val="1222.0" />
+		<volume h="17" val="1524.0" />
+		<volume h="18" val="1686.0" />
+		<volume h="19" val="1335.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="17985" cs_id="57823">
+		<volume h="8" val="1820.0" />
+		<volume h="9" val="1786.0" />
+		<volume h="10" val="1444.0" />
+		<volume h="11" val="1435.0" />
+		<volume h="12" val="1376.0" />
+		<volume h="13" val="1345.0" />
+		<volume h="14" val="1239.0" />
+		<volume h="15" val="1289.0" />
+		<volume h="16" val="1345.0" />
+		<volume h="17" val="1479.0" />
+		<volume h="18" val="1626.0" />
+		<volume h="19" val="1235.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="61634" cs_id="57823">
+		<volume h="8" val="1007.0" />
+		<volume h="9" val="1236.0" />
+		<volume h="10" val="1035.0" />
+		<volume h="11" val="1120.0" />
+		<volume h="12" val="1329.0" />
+		<volume h="13" val="1511.0" />
+		<volume h="14" val="1477.0" />
+		<volume h="15" val="1632.0" />
+		<volume h="16" val="2030.0" />
+		<volume h="17" val="2198.0" />
+		<volume h="18" val="1939.0" />
+		<volume h="19" val="1551.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="70227" cs_id="58281">
+		<volume h="8" val="1987.0" />
+		<volume h="9" val="1927.0" />
+		<volume h="10" val="1439.0" />
+		<volume h="11" val="1421.0" />
+		<volume h="12" val="1411.0" />
+		<volume h="13" val="1311.0" />
+		<volume h="14" val="1180.0" />
+		<volume h="15" val="1436.0" />
+		<volume h="16" val="1792.0" />
+		<volume h="17" val="2223.0" />
+		<volume h="18" val="2104.0" />
+		<volume h="19" val="1461.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="75949" cs_id="58281">
+		<volume h="8" val="1761.0" />
+		<volume h="9" val="1492.0" />
+		<volume h="10" val="1218.0" />
+		<volume h="11" val="1258.0" />
+		<volume h="12" val="1202.0" />
+		<volume h="13" val="1268.0" />
+		<volume h="14" val="1302.0" />
+		<volume h="15" val="1562.0" />
+		<volume h="16" val="1825.0" />
+		<volume h="17" val="2234.0" />
+		<volume h="18" val="2389.0" />
+		<volume h="19" val="1776.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="36620" cs_id="806483">
+		<volume h="8" val="101.0" />
+		<volume h="9" val="117.0" />
+		<volume h="10" val="75.0" />
+		<volume h="11" val="57.0" />
+		<volume h="12" val="69.0" />
+		<volume h="13" val="66.0" />
+		<volume h="14" val="75.0" />
+		<volume h="15" val="59.0" />
+		<volume h="16" val="142.0" />
+		<volume h="17" val="109.0" />
+		<volume h="18" val="113.0" />
+		<volume h="19" val="79.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="36621" cs_id="806483">
+		<volume h="8" val="86.0" />
+		<volume h="9" val="97.0" />
+		<volume h="10" val="54.0" />
+		<volume h="11" val="51.0" />
+		<volume h="12" val="74.0" />
+		<volume h="13" val="66.0" />
+		<volume h="14" val="72.0" />
+		<volume h="15" val="95.0" />
+		<volume h="16" val="158.0" />
+		<volume h="17" val="95.0" />
+		<volume h="18" val="154.0" />
+		<volume h="19" val="95.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="36026" cs_id="806748">
+		<volume h="8" val="209.0" />
+		<volume h="9" val="408.0" />
+		<volume h="10" val="234.0" />
+		<volume h="11" val="240.0" />
+		<volume h="12" val="207.0" />
+		<volume h="13" val="229.0" />
+		<volume h="14" val="202.0" />
+		<volume h="15" val="233.0" />
+		<volume h="16" val="339.0" />
+		<volume h="17" val="405.0" />
+		<volume h="18" val="336.0" />
+		<volume h="19" val="284.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="36027" cs_id="806748">
+		<volume h="8" val="210.0" />
+		<volume h="9" val="436.0" />
+		<volume h="10" val="263.0" />
+		<volume h="11" val="185.0" />
+		<volume h="12" val="204.0" />
+		<volume h="13" val="191.0" />
+		<volume h="14" val="219.0" />
+		<volume h="15" val="221.0" />
+		<volume h="16" val="318.0" />
+		<volume h="17" val="451.0" />
+		<volume h="18" val="430.0" />
+		<volume h="19" val="289.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="27511" cs_id="806784">
+		<volume h="8" val="4.0" />
+		<volume h="9" val="5.0" />
+		<volume h="10" val="10.0" />
+		<volume h="11" val="6.0" />
+		<volume h="12" val="8.0" />
+		<volume h="13" val="5.0" />
+		<volume h="14" val="3.0" />
+		<volume h="15" val="3.0" />
+		<volume h="16" val="4.0" />
+		<volume h="17" val="4.0" />
+		<volume h="18" val="5.0" />
+		<volume h="19" val="2.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="27512" cs_id="806784">
+		<volume h="8" val="0.0" />
+		<volume h="9" val="3.0" />
+		<volume h="10" val="7.0" />
+		<volume h="11" val="7.0" />
+		<volume h="12" val="6.0" />
+		<volume h="13" val="7.0" />
+		<volume h="14" val="5.0" />
+		<volume h="15" val="3.0" />
+		<volume h="16" val="6.0" />
+		<volume h="17" val="9.0" />
+		<volume h="18" val="2.0" />
+		<volume h="19" val="1.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="22448" cs_id="810441">
+		<volume h="8" val="164.0" />
+		<volume h="9" val="250.0" />
+		<volume h="10" val="200.0" />
+		<volume h="11" val="148.0" />
+		<volume h="12" val="154.0" />
+		<volume h="13" val="146.0" />
+		<volume h="14" val="151.0" />
+		<volume h="15" val="186.0" />
+		<volume h="16" val="253.0" />
+		<volume h="17" val="230.0" />
+		<volume h="18" val="204.0" />
+		<volume h="19" val="174.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="22449" cs_id="810441">
+		<volume h="8" val="112.0" />
+		<volume h="9" val="218.0" />
+		<volume h="10" val="173.0" />
+		<volume h="11" val="154.0" />
+		<volume h="12" val="185.0" />
+		<volume h="13" val="173.0" />
+		<volume h="14" val="181.0" />
+		<volume h="15" val="192.0" />
+		<volume h="16" val="245.0" />
+		<volume h="17" val="260.0" />
+		<volume h="18" val="291.0" />
+		<volume h="19" val="232.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="30310" cs_id="811983">
+		<volume h="8" val="89.0" />
+		<volume h="9" val="153.0" />
+		<volume h="10" val="117.0" />
+		<volume h="11" val="120.0" />
+		<volume h="12" val="111.0" />
+		<volume h="13" val="100.0" />
+		<volume h="14" val="104.0" />
+		<volume h="15" val="124.0" />
+		<volume h="16" val="143.0" />
+		<volume h="17" val="110.0" />
+		<volume h="18" val="125.0" />
+		<volume h="19" val="77.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="30311" cs_id="811983">
+		<volume h="8" val="42.0" />
+		<volume h="9" val="68.0" />
+		<volume h="10" val="72.0" />
+		<volume h="11" val="87.0" />
+		<volume h="12" val="84.0" />
+		<volume h="13" val="86.0" />
+		<volume h="14" val="83.0" />
+		<volume h="15" val="86.0" />
+		<volume h="16" val="121.0" />
+		<volume h="17" val="105.0" />
+		<volume h="18" val="98.0" />
+		<volume h="19" val="96.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="70321" cs_id="81374">
+		<volume h="8" val="1810.0" />
+		<volume h="9" val="2127.0" />
+		<volume h="10" val="1845.0" />
+		<volume h="11" val="1707.0" />
+		<volume h="12" val="1772.0" />
+		<volume h="13" val="1405.0" />
+		<volume h="14" val="1788.0" />
+		<volume h="15" val="1835.0" />
+		<volume h="16" val="2104.0" />
+		<volume h="17" val="2489.0" />
+		<volume h="18" val="2512.0" />
+		<volume h="19" val="2459.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="75857" cs_id="81374">
+		<volume h="8" val="1622.0" />
+		<volume h="9" val="1542.0" />
+		<volume h="10" val="1096.0" />
+		<volume h="11" val="1171.0" />
+		<volume h="12" val="1746.0" />
+		<volume h="13" val="1298.0" />
+		<volume h="14" val="1388.0" />
+		<volume h="15" val="1525.0" />
+		<volume h="16" val="1348.0" />
+		<volume h="17" val="1510.0" />
+		<volume h="18" val="1797.0" />
+		<volume h="19" val="1438.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="27841" cs_id="89282">
+		<volume h="8" val="1862.0" />
+		<volume h="9" val="2146.0" />
+		<volume h="10" val="1499.0" />
+		<volume h="11" val="1337.0" />
+		<volume h="12" val="1710.0" />
+		<volume h="13" val="1747.0" />
+		<volume h="14" val="1748.0" />
+		<volume h="15" val="1849.0" />
+		<volume h="16" val="2210.0" />
+		<volume h="17" val="2329.0" />
+		<volume h="18" val="2604.0" />
+		<volume h="19" val="2048.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="68708" cs_id="89282">
+		<volume h="8" val="2251.0" />
+		<volume h="9" val="2175.0" />
+		<volume h="10" val="1806.0" />
+		<volume h="11" val="1582.0" />
+		<volume h="12" val="1592.0" />
+		<volume h="13" val="1619.0" />
+		<volume h="14" val="1738.0" />
+		<volume h="15" val="1769.0" />
+		<volume h="16" val="1977.0" />
+		<volume h="17" val="2040.0" />
+		<volume h="18" val="2096.0" />
+		<volume h="19" val="1654.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="19410" cs_id="90148">
+		<volume h="8" val="1311.0" />
+		<volume h="9" val="1769.0" />
+		<volume h="10" val="1281.0" />
+		<volume h="11" val="1544.0" />
+		<volume h="12" val="1593.0" />
+		<volume h="13" val="1811.0" />
+		<volume h="14" val="1708.0" />
+		<volume h="15" val="1989.0" />
+		<volume h="16" val="2259.0" />
+		<volume h="17" val="2384.0" />
+		<volume h="18" val="2202.0" />
+		<volume h="19" val="1741.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="68946" cs_id="90148">
+		<volume h="8" val="2160.0" />
+		<volume h="9" val="2407.0" />
+		<volume h="10" val="1876.0" />
+		<volume h="11" val="1502.0" />
+		<volume h="12" val="1508.0" />
+		<volume h="13" val="1512.0" />
+		<volume h="14" val="1563.0" />
+		<volume h="15" val="1647.0" />
+		<volume h="16" val="1875.0" />
+		<volume h="17" val="1546.0" />
+		<volume h="18" val="1671.0" />
+		<volume h="19" val="1302.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="76899" cs_id="947292">
+		<volume h="8" val="350.0" />
+		<volume h="9" val="469.0" />
+		<volume h="10" val="295.0" />
+		<volume h="11" val="266.0" />
+		<volume h="12" val="365.0" />
+		<volume h="13" val="396.0" />
+		<volume h="14" val="449.0" />
+		<volume h="15" val="445.0" />
+		<volume h="16" val="634.0" />
+		<volume h="17" val="557.0" />
+		<volume h="18" val="641.0" />
+		<volume h="19" val="431.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="76900" cs_id="947292">
+		<volume h="8" val="461.0" />
+		<volume h="9" val="648.0" />
+		<volume h="10" val="396.0" />
+		<volume h="11" val="435.0" />
+		<volume h="12" val="395.0" />
+		<volume h="13" val="386.0" />
+		<volume h="14" val="440.0" />
+		<volume h="15" val="474.0" />
+		<volume h="16" val="659.0" />
+		<volume h="17" val="560.0" />
+		<volume h="18" val="546.0" />
+		<volume h="19" val="505.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="21371" cs_id="947293">
+		<volume h="8" val="605.0" />
+		<volume h="9" val="651.0" />
+		<volume h="10" val="502.0" />
+		<volume h="11" val="394.0" />
+		<volume h="12" val="419.0" />
+		<volume h="13" val="435.0" />
+		<volume h="14" val="419.0" />
+		<volume h="15" val="514.0" />
+		<volume h="16" val="529.0" />
+		<volume h="17" val="474.0" />
+		<volume h="18" val="452.0" />
+		<volume h="19" val="366.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="21372" cs_id="947293">
+		<volume h="8" val="440.0" />
+		<volume h="9" val="426.0" />
+		<volume h="10" val="401.0" />
+		<volume h="11" val="396.0" />
+		<volume h="12" val="441.0" />
+		<volume h="13" val="540.0" />
+		<volume h="14" val="498.0" />
+		<volume h="15" val="570.0" />
+		<volume h="16" val="608.0" />
+		<volume h="17" val="598.0" />
+		<volume h="18" val="794.0" />
+		<volume h="19" val="459.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="65978" cs_id="947296">
+		<volume h="8" val="346.0" />
+		<volume h="9" val="391.0" />
+		<volume h="10" val="277.0" />
+		<volume h="11" val="250.0" />
+		<volume h="12" val="276.0" />
+		<volume h="13" val="332.0" />
+		<volume h="14" val="351.0" />
+		<volume h="15" val="427.0" />
+		<volume h="16" val="591.0" />
+		<volume h="17" val="764.0" />
+		<volume h="18" val="685.0" />
+		<volume h="19" val="411.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="65979" cs_id="947296">
+		<volume h="8" val="564.0" />
+		<volume h="9" val="629.0" />
+		<volume h="10" val="338.0" />
+		<volume h="11" val="280.0" />
+		<volume h="12" val="261.0" />
+		<volume h="13" val="287.0" />
+		<volume h="14" val="271.0" />
+		<volume h="15" val="329.0" />
+		<volume h="16" val="376.0" />
+		<volume h="17" val="370.0" />
+		<volume h="18" val="371.0" />
+		<volume h="19" val="348.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="53529" cs_id="947303">
+		<volume h="8" val="199.0" />
+		<volume h="9" val="348.0" />
+		<volume h="10" val="379.0" />
+		<volume h="11" val="493.0" />
+		<volume h="12" val="603.0" />
+		<volume h="13" val="563.0" />
+		<volume h="14" val="493.0" />
+		<volume h="15" val="635.0" />
+		<volume h="16" val="636.0" />
+		<volume h="17" val="887.0" />
+		<volume h="18" val="797.0" />
+		<volume h="19" val="435.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="53530" cs_id="947303">
+		<volume h="8" val="284.0" />
+		<volume h="9" val="446.0" />
+		<volume h="10" val="334.0" />
+		<volume h="11" val="338.0" />
+		<volume h="12" val="354.0" />
+		<volume h="13" val="352.0" />
+		<volume h="14" val="343.0" />
+		<volume h="15" val="369.0" />
+		<volume h="16" val="317.0" />
+		<volume h="17" val="335.0" />
+		<volume h="18" val="390.0" />
+		<volume h="19" val="252.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="64833" cs_id="947306">
+		<volume h="8" val="52.0" />
+		<volume h="9" val="236.0" />
+		<volume h="10" val="62.0" />
+		<volume h="11" val="63.0" />
+		<volume h="12" val="83.0" />
+		<volume h="13" val="103.0" />
+		<volume h="14" val="88.0" />
+		<volume h="15" val="141.0" />
+		<volume h="16" val="159.0" />
+		<volume h="17" val="131.0" />
+		<volume h="18" val="112.0" />
+		<volume h="19" val="73.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="64834" cs_id="947306">
+		<volume h="8" val="115.0" />
+		<volume h="9" val="218.0" />
+		<volume h="10" val="96.0" />
+		<volume h="11" val="50.0" />
+		<volume h="12" val="88.0" />
+		<volume h="13" val="82.0" />
+		<volume h="14" val="65.0" />
+		<volume h="15" val="74.0" />
+		<volume h="16" val="164.0" />
+		<volume h="17" val="111.0" />
+		<volume h="18" val="88.0" />
+		<volume h="19" val="48.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="79859" cs_id="947308">
+		<volume h="8" val="263.0" />
+		<volume h="9" val="328.0" />
+		<volume h="10" val="157.0" />
+		<volume h="11" val="165.0" />
+		<volume h="12" val="178.0" />
+		<volume h="13" val="175.0" />
+		<volume h="14" val="138.0" />
+		<volume h="15" val="225.0" />
+		<volume h="16" val="227.0" />
+		<volume h="17" val="257.0" />
+		<volume h="18" val="332.0" />
+		<volume h="19" val="179.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="79860" cs_id="947308">
+		<volume h="8" val="190.0" />
+		<volume h="9" val="269.0" />
+		<volume h="10" val="165.0" />
+		<volume h="11" val="161.0" />
+		<volume h="12" val="198.0" />
+		<volume h="13" val="217.0" />
+		<volume h="14" val="207.0" />
+		<volume h="15" val="183.0" />
+		<volume h="16" val="270.0" />
+		<volume h="17" val="271.0" />
+		<volume h="18" val="396.0" />
+		<volume h="19" val="204.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="17765" cs_id="947310">
+		<volume h="8" val="190.0" />
+		<volume h="9" val="345.0" />
+		<volume h="10" val="232.0" />
+		<volume h="11" val="220.0" />
+		<volume h="12" val="144.0" />
+		<volume h="13" val="169.0" />
+		<volume h="14" val="165.0" />
+		<volume h="15" val="151.0" />
+		<volume h="16" val="350.0" />
+		<volume h="17" val="378.0" />
+		<volume h="18" val="369.0" />
+		<volume h="19" val="204.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="27619" cs_id="947310">
+		<volume h="8" val="217.0" />
+		<volume h="9" val="352.0" />
+		<volume h="10" val="199.0" />
+		<volume h="11" val="212.0" />
+		<volume h="12" val="188.0" />
+		<volume h="13" val="210.0" />
+		<volume h="14" val="184.0" />
+		<volume h="15" val="261.0" />
+		<volume h="16" val="354.0" />
+		<volume h="17" val="391.0" />
+		<volume h="18" val="365.0" />
+		<volume h="19" val="250.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="4946" cs_id="947311">
+		<volume h="8" val="41.0" />
+		<volume h="9" val="129.0" />
+		<volume h="10" val="73.0" />
+		<volume h="11" val="65.0" />
+		<volume h="12" val="76.0" />
+		<volume h="13" val="83.0" />
+		<volume h="14" val="94.0" />
+		<volume h="15" val="91.0" />
+		<volume h="16" val="107.0" />
+		<volume h="17" val="128.0" />
+		<volume h="18" val="130.0" />
+		<volume h="19" val="72.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="4947" cs_id="947311">
+		<volume h="8" val="49.0" />
+		<volume h="9" val="127.0" />
+		<volume h="10" val="91.0" />
+		<volume h="11" val="93.0" />
+		<volume h="12" val="94.0" />
+		<volume h="13" val="76.0" />
+		<volume h="14" val="63.0" />
+		<volume h="15" val="68.0" />
+		<volume h="16" val="122.0" />
+		<volume h="17" val="131.0" />
+		<volume h="18" val="107.0" />
+		<volume h="19" val="104.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="73511" cs_id="947314">
+		<volume h="8" val="6.0" />
+		<volume h="9" val="18.0" />
+		<volume h="10" val="23.0" />
+		<volume h="11" val="10.0" />
+		<volume h="12" val="21.0" />
+		<volume h="13" val="16.0" />
+		<volume h="14" val="27.0" />
+		<volume h="15" val="13.0" />
+		<volume h="16" val="23.0" />
+		<volume h="17" val="27.0" />
+		<volume h="18" val="20.0" />
+		<volume h="19" val="22.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="73512" cs_id="947314">
+		<volume h="8" val="12.0" />
+		<volume h="9" val="23.0" />
+		<volume h="10" val="19.0" />
+		<volume h="11" val="14.0" />
+		<volume h="12" val="19.0" />
+		<volume h="13" val="17.0" />
+		<volume h="14" val="22.0" />
+		<volume h="15" val="22.0" />
+		<volume h="16" val="24.0" />
+		<volume h="17" val="20.0" />
+		<volume h="18" val="17.0" />
+		<volume h="19" val="19.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="48446" cs_id="947317">
+		<volume h="8" val="6.0" />
+		<volume h="9" val="3.0" />
+		<volume h="10" val="8.0" />
+		<volume h="11" val="9.0" />
+		<volume h="12" val="7.0" />
+		<volume h="13" val="10.0" />
+		<volume h="14" val="10.0" />
+		<volume h="15" val="9.0" />
+		<volume h="16" val="8.0" />
+		<volume h="17" val="6.0" />
+		<volume h="18" val="5.0" />
+		<volume h="19" val="5.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="48447" cs_id="947317">
+		<volume h="8" val="7.0" />
+		<volume h="9" val="3.0" />
+		<volume h="10" val="7.0" />
+		<volume h="11" val="10.0" />
+		<volume h="12" val="8.0" />
+		<volume h="13" val="14.0" />
+		<volume h="14" val="5.0" />
+		<volume h="15" val="10.0" />
+		<volume h="16" val="5.0" />
+		<volume h="17" val="7.0" />
+		<volume h="18" val="6.0" />
+		<volume h="19" val="5.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="75304" cs_id="947327">
+		<volume h="8" val="17.0" />
+		<volume h="9" val="37.0" />
+		<volume h="10" val="14.0" />
+		<volume h="11" val="17.0" />
+		<volume h="12" val="22.0" />
+		<volume h="13" val="13.0" />
+		<volume h="14" val="24.0" />
+		<volume h="15" val="26.0" />
+		<volume h="16" val="13.0" />
+		<volume h="17" val="10.0" />
+		<volume h="18" val="16.0" />
+		<volume h="19" val="26.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="75305" cs_id="947327">
+		<volume h="8" val="11.0" />
+		<volume h="9" val="12.0" />
+		<volume h="10" val="21.0" />
+		<volume h="11" val="17.0" />
+		<volume h="12" val="23.0" />
+		<volume h="13" val="15.0" />
+		<volume h="14" val="22.0" />
+		<volume h="15" val="15.0" />
+		<volume h="16" val="27.0" />
+		<volume h="17" val="18.0" />
+		<volume h="18" val="27.0" />
+		<volume h="19" val="34.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="27135" cs_id="947331">
+		<volume h="8" val="14.0" />
+		<volume h="9" val="36.0" />
+		<volume h="10" val="22.0" />
+		<volume h="11" val="22.0" />
+		<volume h="12" val="25.0" />
+		<volume h="13" val="19.0" />
+		<volume h="14" val="34.0" />
+		<volume h="15" val="29.0" />
+		<volume h="16" val="55.0" />
+		<volume h="17" val="40.0" />
+		<volume h="18" val="47.0" />
+		<volume h="19" val="40.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="27136" cs_id="947331">
+		<volume h="8" val="30.0" />
+		<volume h="9" val="39.0" />
+		<volume h="10" val="19.0" />
+		<volume h="11" val="18.0" />
+		<volume h="12" val="25.0" />
+		<volume h="13" val="20.0" />
+		<volume h="14" val="21.0" />
+		<volume h="15" val="31.0" />
+		<volume h="16" val="41.0" />
+		<volume h="17" val="22.0" />
+		<volume h="18" val="31.0" />
+		<volume h="19" val="31.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="46011" cs_id="947340">
+		<volume h="8" val="0.0" />
+		<volume h="9" val="1.0" />
+		<volume h="10" val="0.0" />
+		<volume h="11" val="0.0" />
+		<volume h="12" val="0.0" />
+		<volume h="13" val="1.0" />
+		<volume h="14" val="1.0" />
+		<volume h="15" val="0.0" />
+		<volume h="16" val="2.0" />
+		<volume h="17" val="0.0" />
+		<volume h="18" val="0.0" />
+		<volume h="19" val="2.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="46012" cs_id="947340">
+		<volume h="8" val="40.0" />
+		<volume h="9" val="60.0" />
+		<volume h="10" val="28.0" />
+		<volume h="11" val="24.0" />
+		<volume h="12" val="27.0" />
+		<volume h="13" val="13.0" />
+		<volume h="14" val="29.0" />
+		<volume h="15" val="29.0" />
+		<volume h="16" val="48.0" />
+		<volume h="17" val="63.0" />
+		<volume h="18" val="38.0" />
+		<volume h="19" val="26.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="4536" cs_id="947341">
+		<volume h="8" val="20.0" />
+		<volume h="9" val="32.0" />
+		<volume h="10" val="14.0" />
+		<volume h="11" val="12.0" />
+		<volume h="12" val="10.0" />
+		<volume h="13" val="13.0" />
+		<volume h="14" val="10.0" />
+		<volume h="15" val="11.0" />
+		<volume h="16" val="9.0" />
+		<volume h="17" val="15.0" />
+		<volume h="18" val="27.0" />
+		<volume h="19" val="26.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="4537" cs_id="947341">
+		<volume h="8" val="17.0" />
+		<volume h="9" val="14.0" />
+		<volume h="10" val="16.0" />
+		<volume h="11" val="15.0" />
+		<volume h="12" val="8.0" />
+		<volume h="13" val="14.0" />
+		<volume h="14" val="13.0" />
+		<volume h="15" val="9.0" />
+		<volume h="16" val="10.0" />
+		<volume h="17" val="16.0" />
+		<volume h="18" val="30.0" />
+		<volume h="19" val="25.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="71353" cs_id="947343">
+		<volume h="8" val="32.0" />
+		<volume h="9" val="64.0" />
+		<volume h="10" val="39.0" />
+		<volume h="11" val="36.0" />
+		<volume h="12" val="50.0" />
+		<volume h="13" val="65.0" />
+		<volume h="14" val="49.0" />
+		<volume h="15" val="45.0" />
+		<volume h="16" val="55.0" />
+		<volume h="17" val="52.0" />
+		<volume h="18" val="86.0" />
+		<volume h="19" val="42.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+	<count loc_id="71354" cs_id="947343">
+		<volume h="8" val="69.0" />
+		<volume h="9" val="110.0" />
+		<volume h="10" val="44.0" />
+		<volume h="11" val="25.0" />
+		<volume h="12" val="54.0" />
+		<volume h="13" val="35.0" />
+		<volume h="14" val="79.0" />
+		<volume h="15" val="46.0" />
+		<volume h="16" val="95.0" />
+		<volume h="17" val="88.0" />
+		<volume h="18" val="111.0" />
+		<volume h="19" val="64.0" />
+	</count>
+
+<!-- ====================================================================== -->
+
+</counts>

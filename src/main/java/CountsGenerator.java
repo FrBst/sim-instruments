@@ -1,5 +1,7 @@
+import java.awt.print.Book;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,19 +16,27 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.zip.GZIPInputStream;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import org.locationtech.proj4j.ProjCoordinate;
 import org.matsim.api.core.v01.Coord;
+import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.scenario.ScenarioUtils;
+import org.matsim.counts.Counts;
+import org.matsim.counts.CountsWriter;
 
+import generated.CountType;
+import generated.CountsType;
+import generated.ObjectFactory;
 import model.LinkHourlyCount;
-import osm.Osm;
 
 public class CountsGenerator {
     private static Map<String, LinkHourlyCount> counts = new HashMap<>();
@@ -34,8 +44,8 @@ public class CountsGenerator {
     private static Map<String, List<Link>> mapping = new HashMap<>();
     private static Map<String, osm.Node> refs = new HashMap<>();
     public static final int coef = 10; // Population scale.
-    private static Network net = ScenarioUtils.loadScenario(ConfigUtils.loadConfig( "scenarios/plymouth/output_network_config.xml")).getNetwork();
-
+    private static Network net = ScenarioUtils.loadScenario(ConfigUtils.loadConfig( "scenarios/plymouth/input_network_config.xml")).getNetwork();
+    
     public static void gunzip(Path fin) throws IOException {
 
         try(final InputStream in = new GZIPInputStream(Files.newInputStream(fin));
@@ -107,7 +117,7 @@ public class CountsGenerator {
         	System.err.println("Could not find link near " + c.toString());
         	return;
         }
-        base.merge(closest.getId().toString(), LinkHourlyCount.linkInit(hour, cnt), (v1, v2) -> v1.set(hour, cnt));
+        base.merge(closest.getId().toString(), LinkHourlyCount.linkInit(point_id, hour, cnt), (v1, v2) -> v1.set(hour, cnt));
     }
     
     public static List<Link> deduceLinkId(String count_point, double lat, double lon) throws IOException {
@@ -192,6 +202,13 @@ public class CountsGenerator {
                 writer.write("\n");
             }
         }
+        
+        try {
+			createMatsimCountsFile(base);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
 
         return base;
     }
@@ -326,7 +343,7 @@ public class CountsGenerator {
                     System.out.println("Adding " + point_id + ", hour " + hour);
 
                     int tries = 1;
-                    temp.merge(lat + ";" + lon + ";" + dir, LinkHourlyCount.linkInit(hour, cnt), (v1, v2) -> v1.set(hour, cnt));
+                    temp.merge(lat + ";" + lon + ";" + dir, LinkHourlyCount.linkInit(point_id, hour, cnt), (v1, v2) -> v1.set(hour, cnt));
                 }
                 line = br.readLine();
                 if (line != null) {
@@ -349,5 +366,24 @@ public class CountsGenerator {
         }
         
         return temp;
+    }
+    
+    private static void createMatsimCountsFile(Map<String, LinkHourlyCount> cntMap) throws JAXBException {
+    	Counts<String> counts = new Counts<>();
+    	counts.setName("GB Traffic Counts");
+    	counts.setYear(2019);
+    	counts.setDescription("Traffic counts for Plymouth, UK");
+    	
+    	for (var entry : cntMap.entrySet()) {
+    		Id<String> id = Id.create(entry.getKey(), String.class);
+    		counts.createAndAddCount(id, entry.getValue().getStationNo());
+    		
+			int[] data = entry.getValue().getCounts();
+    		for (int i = 7; i <= 18; i++) {
+    			counts.getCount(id).createVolume(i+1, data[i]);
+    		}
+    	}
+    	
+    	new CountsWriter(counts).write("scenarios/plymouth/counts.xml");
     }
 }
