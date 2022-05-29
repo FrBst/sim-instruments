@@ -2,6 +2,8 @@ import model.Activity;
 import model.ActivityType;
 import model.Building;
 import model.Person;
+
+import org.locationtech.jts.index.bintree.Key;
 import org.locationtech.proj4j.BasicCoordinateTransform;
 import org.locationtech.proj4j.CRSFactory;
 import org.locationtech.proj4j.CoordinateReferenceSystem;
@@ -9,6 +11,7 @@ import org.locationtech.proj4j.ProjCoordinate;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class MatsimGenerator {
@@ -81,17 +84,11 @@ public class MatsimGenerator {
 
     public void write(String plansFile, String attributesFile, List<Person> persons) {
 
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(plansFile));
-        		BufferedWriter writerAttr = new BufferedWriter(new FileWriter(attributesFile)))
-        {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(plansFile))) {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                     "<!DOCTYPE population SYSTEM \"http://www.matsim.org/files/dtd/population_v6.dtd\">\n" +
                     "\n" +
                     "<population>\n");
-            writerAttr.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                    "<!DOCTYPE objectAttributes SYSTEM \"http://matsim.org/files/dtd/objectattributes_v1.dtd\">\n" +
-                    "\n" +
-                    "<objectAttributes>\n");
 
             for (Person p : persons) {
                 writer.write("\t<person id=\"" + p.getPid() + "\">\n");
@@ -101,6 +98,7 @@ public class MatsimGenerator {
                 writer.write("\t\t<plan selected=\"yes\">\n");
 
                 p.getActivities().sort(Comparator.comparingInt(Activity::getOEndTime));
+                Building spawn = null;
                 for (int i = 0; i < p.getActivities().size(); i++) {
                     Activity a = p.getActivities().get(i);
                     if (i > 0) {
@@ -109,6 +107,14 @@ public class MatsimGenerator {
 
                     Building b = osm.getRandomBuilding(a.getOType(), a.getOZone());
 
+                    /// !!!!
+                    if (i == 0) {
+                        if (!a.getOType().equals(ActivityType.HOME)) {
+                        	System.err.println("inconsistency in plan?");
+                        }
+                    	spawn = b;
+                    }
+
                     writer.write("\t\t\t<activity type=\"" + a.getOType() + "\" ");
                     writer.write("x=\"" + b.getLatitude() + "\" y=\"" + b.getLongitude() + "\" ");
                     writer.write("end_time=\"" + (180 + a.getOEndTime()) / 60 % 24 + ":" + a.getOEndTime() % 60 + ":00\"/>\n");
@@ -116,6 +122,14 @@ public class MatsimGenerator {
                     if (i == p.getActivities().size() - 1) {
                         writer.write("\t\t\t<leg mode=\"" + a.getModeBefore() + "\"/>\n");
                         b = osm.getRandomBuilding(a.getDType(), a.getDZone());
+
+                        /// !!!!
+                    	if (!a.getDType().equals(ActivityType.HOME)) {
+                        	System.out.println("inconsistency in plan? (end)");
+                        }
+                    	b = spawn;
+                        
+                        
                         writer.write("\t\t\t<activity type=\"" + a.getDType() + "\" ");
                         writer.write("x=\"" + b.getLatitude() + "\" y=\"" + b.getLongitude() + "\"/>\n");
                     }
@@ -123,16 +137,11 @@ public class MatsimGenerator {
 
                 writer.write("\t\t</plan>\n");
                 writer.write("\t</person>\n");
-                
-                writerAttr.write("\t<object id=\"" + p.getPid() + "\">\n");
-                writerAttr.write("\t\t<attribute name=\"subpopulation\" class=\"java.lang.String\">default</attribute>\n");
-                writerAttr.write("\t</object>\n");
             }
             
-            writeRandomFreight(writer, writerAttr);
+            writeRandomFreight(writer);
             
             writer.write("</population>\n");
-            writerAttr.write("</objectAttributes>");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -145,58 +154,111 @@ public class MatsimGenerator {
         return dstCoord;
     }
     
-    private static void writeRandomFreight(BufferedWriter writer, BufferedWriter writerAttr) throws IOException {
-    	Map<Building, Integer> counts = new HashMap<>();
+    private static void writeRandomFreight(BufferedWriter writer) throws IOException  {
+    	Map<Building, Integer> counts = new ConcurrentHashMap<>(new LinkedHashMap<>());
     	
-    	ProjCoordinate p = transformFromWGS84(50.4151, -4.2497);
-    	counts.put(new Building(p.x, p.y, "Saltash", -99), 3000);
+    	// Цифры с счетных станций
+    	ProjCoordinate p = transformFromWGS84(50.3807795,-4.000795);
+    	counts.put(new Building(p.x, p.y, "Lnd", -99), (int) (27000 / 0.7427 / 10));
     	
-    	p = transformFromWGS84(50.4453, -4.1088);
-    	counts.put(new Building(p.x, p.y, "North", -99), 1200);
+    	p = transformFromWGS84(50.4183,-4.2589);
+    	counts.put(new Building(p.x, p.y, "Sal", -99), (int) (17500 / 0.7427 / 10)); // 0.0765 = prob between 13 and 14 
     	
-    	p = transformFromWGS84(50.3807, -4.0010);
-    	counts.put(new Building(p.x, p.y, "London", -99), 3700);
+    	p = transformFromWGS84(50.4704,-4.0985);
+    	counts.put(new Building(p.x, p.y, "Nor", -99), (int) (6800 / 0.7427 / 10)); // 0.7427 -- [8;20).
     	
-    	p = transformFromWGS84(50.3545, -4.0510);
-    	counts.put(new Building(p.x, p.y, "South", -99), 1500);
+    	p = transformFromWGS84(50.3481, -4.0202);
+    	counts.put(new Building(p.x, p.y, "Sth", -99), (int) (1280 / 0.7427 / 10));
     	
     	Random r = new Random(12353);
     	
     	for (var entry : counts.entrySet()) {
     		for (int i = 0; i < entry.getValue(); i++) {
-    			int sec = r.nextInt(108000);
-    			if (sec < 14400 || sec > 93600) {
+    			int sec = (int) ((r.nextGaussian() * 5.2 + 13) * 3600);
+    			
+    			if (sec < 14400 || sec >= 72000) { // [4, 20)
     				continue;
     			}
     			
-    			Building dest = osm.getRandomBuilding(ActivityType.WORK, osm.getRandomZone(ActivityType.WORK));
+    			Building dest = null;
+    			boolean through = true;
+    			
+//    			do {
+    			int transit = counts.entrySet().stream()
+    					.filter(e -> !e.getKey().equals(entry.getKey()))
+    					.map(e -> e.getValue())
+    					.reduce(0, Integer::sum);
+    			if (transit == 0) {
+	    			dest = osm.getRandomBuilding(ActivityType.WORK, osm.getRandomZone(ActivityType.WORK));
+	    			through = false;
+	            	i += 1;
+    			} else {
+        			int rand = (int) (r.nextInt(transit));
+        			for (var w : counts.entrySet().stream().filter(e -> !e.getKey().equals(entry.getKey())).collect(Collectors.toList())) {
+        				rand -= w.getValue();
+        				if (rand < 0) {
+        					dest = w.getKey();
+                			counts.merge(dest, -1, Integer::sum);
+        					break;
+        				}
+    				}
+    			}
+//    			} while (entry.getKey().getType().equals("Sth") && dest.getType().equals("Lnd")
+//    					|| entry.getKey().getType().equals("Lnd") && dest.getType().equals("Sth")
     			
     			int hour = sec / 60 / 60;
     			int minute = sec / 60 % 60;
     			int second = sec / 3600;
     			
-    			writer.write("\t<person id=\"" + entry.getKey().getType() + i + "\">\n");
-                writer.write("\t\t<attributes>\n");
-                writer.write("\t\t\t<attribute name=\"subpopulation\" class=\"java.lang.String\">freight</attribute>\n");
-                writer.write("\t\t</attributes>\n");
-                writer.write("\t\t<plan selected=\"yes\">\n");
-                writer.write("\t\t\t<activity type=\"home\" ");
-                writer.write("x=\"" + entry.getKey().getLatitude() + "\" y=\"" + entry.getKey().getLongitude() + "\" ");
-                writer.write("end_time=\"" + hour + ":" + minute + ":" + second + "\"/>\n");
-                writer.write("\t\t\t<leg mode=\"car\"/>\n");
-                writer.write("\t\t\t<activity type=\"warehouse\" ");
-                writer.write("x=\"" + dest.getLatitude() + "\" y=\"" + dest.getLongitude() + "\" ");
-                writer.write("end_time=\"" + (hour+3) + ":" + minute + ":" + second + "\"/>\n");
-                writer.write("\t\t\t<leg mode=\"car\"/>\n");
-                writer.write("\t\t\t<activity type=\"home\" ");
-                writer.write("x=\"" + entry.getKey().getLatitude() + "\" y=\"" + entry.getKey().getLongitude() + "\"/>\n");
-                writer.write("\t\t</plan>\n");
-                writer.write("\t</person>\n");
-                
-                writerAttr.write("\t<object id=\"" + entry.getKey().getType() + i + "\">\n");
-                writerAttr.write("\t\t<attribute name=\"subpopulation\" class=\"java.lang.String\">freight</attribute>\n");
-                writerAttr.write("\t</object>\n");
+    			Building b1, b2;
+    			if (r.nextDouble() > 0.5) {
+    				b1 = entry.getKey();
+    				b2 = dest;
+    			} else {
+    				b2 = entry.getKey();
+    				b1 = dest;
+    			}
+    			
+    			if (through) {
+        			writer.write("\t<person id=\"" + entry.getKey().getType() + i + "\">\n");
+                    writer.write("\t\t<attributes>\n");
+                    writer.write("\t\t\t<attribute name=\"subpopulation\" class=\"java.lang.String\">freight</attribute>\n");
+                    writer.write("\t\t</attributes>\n");
+                    writer.write("\t\t<plan selected=\"yes\">\n");
+                    writer.write("\t\t\t<activity type=\"home\" ");
+                    writer.write("x=\"" + b1.getLatitude() + "\" y=\"" + b1.getLongitude() + "\" ");
+                    writer.write("end_time=\"" + (hour-3) + ":" + minute + ":" + second + "\"/>\n");
+                    writer.write("\t\t\t<leg mode=\"freight\"/>\n");
+                    writer.write("\t\t\t<activity type=\"warehouse\" ");
+                    writer.write("x=\"" + b2.getLatitude() + "\" y=\"" + b2.getLongitude() + "\" ");
+                    writer.write("end_time=\"" + hour + ":" + minute + ":" + second + "\"/>\n");
+                    writer.write("\t\t\t<leg mode=\"freight\"/>\n");
+                    writer.write("\t\t\t<activity type=\"home\" ");
+                    writer.write("x=\"" + b1.getLatitude() + "\" y=\"" + b1.getLongitude() + "\"/>\n");
+                    writer.write("\t\t</plan>\n");
+                    writer.write("\t</person>\n");
+    			} else {
+        			writer.write("\t<person id=\"" + entry.getKey().getType() + i + "\">\n");
+                    writer.write("\t\t<attributes>\n");
+                    writer.write("\t\t\t<attribute name=\"subpopulation\" class=\"java.lang.String\">freight</attribute>\n");
+                    writer.write("\t\t</attributes>\n");
+                    writer.write("\t\t<plan selected=\"yes\">\n");
+                    writer.write("\t\t\t<activity type=\"home\" ");
+                    writer.write("x=\"" + b1.getLatitude() + "\" y=\"" + b1.getLongitude() + "\" ");
+                    writer.write("end_time=\"" + (hour-3) + ":" + minute + ":" + second + "\"/>\n");
+                    writer.write("\t\t\t<leg mode=\"freight\"/>\n");
+                    writer.write("\t\t\t<activity type=\"warehouse\" ");
+                    writer.write("x=\"" + b2.getLatitude() + "\" y=\"" + b2.getLongitude() + "\" ");
+                    writer.write("end_time=\"" + hour + ":" + minute + ":" + second + "\"/>\n");
+                    writer.write("\t\t\t<leg mode=\"freight\"/>\n");
+                    writer.write("\t\t\t<activity type=\"home\" ");
+                    writer.write("x=\"" + b1.getLatitude() + "\" y=\"" + b1.getLongitude() + "\"/>\n");
+                    writer.write("\t\t</plan>\n");
+                    writer.write("\t</person>\n");
+    			}
     		}
+			
+			counts.put(entry.getKey(), 0);
     	}
     }
 }

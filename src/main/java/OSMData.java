@@ -95,7 +95,7 @@ public class OSMData {
         	double dy = (maxY - minY) / zonesY;
         	int x = zone % zonesX;
         	int y = zone / zonesX;
-        	return new Building(dx * (x + r.nextDouble()), dy * (y + r.nextDouble()), "placeholder", zone);
+        	return new Building(minX + dx * (x + r.nextDouble()), minY + dy * (y + r.nextDouble()), "placeholder", zone);
 //            return getRandomResidential(44);
         }
         return activities.get(activity).get(zone).get(r.nextInt(size));
@@ -139,9 +139,6 @@ public class OSMData {
         	}
         	
         	boolean isLand = w.getTags().containsKey("landuse") && !w.getTags().containsKey("building");
-        	if (isLand) {
-        		String huy = "fdsfsdf";
-        	}
         	
         	List<Node> ns = w.getNodes();
         	if (ns.size() <= 2) {
@@ -229,5 +226,21 @@ public class OSMData {
     	return activities.get(activity).stream()
     			.map(List<Building>::size)
     			.collect(Collectors.toList());
+    }
+    
+    public List<Integer> getCountMerged() {
+    	List<Integer> res = new ArrayList();
+    	for (int i = 0; i < zonesX * zonesY; i++) {
+    		int sum = 0;
+    		sum += activities.get(ActivityType.HOME).get(i).size();
+    		sum += activities.get(ActivityType.WORK).get(i).size();
+    		sum += activities.get(ActivityType.SHOP).get(i).size();
+    		sum += activities.get(ActivityType.STUDY_ADULT).get(i).size();
+    		sum += activities.get(ActivityType.STUDY_CHILD).get(i).size();
+    		sum += activities.get(ActivityType.LEISURE).get(i).size();
+    		res.add(sum);
+    	}
+    	
+    	return res;
     }
 }

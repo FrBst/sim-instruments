@@ -1,4 +1,4 @@
 title: "Hourly traffic"
 description: "Hourly traffic"
-csvFile: "hourly_counts.csv"
-network: "*output_network.xml.gz"
+csvFile: "hourly_counts_all.csv"
+network: "*output_network.geo.json.gz"

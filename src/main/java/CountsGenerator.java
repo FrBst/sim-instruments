@@ -1,7 +1,6 @@
-import java.awt.print.Book;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,26 +15,29 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.zip.GZIPInputStream;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 import org.locationtech.proj4j.ProjCoordinate;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
+import org.matsim.api.core.v01.population.Activity;
+import org.matsim.api.core.v01.population.Leg;
+import org.matsim.api.core.v01.population.Person;
+import org.matsim.api.core.v01.population.PlanElement;
+import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.network.NetworkUtils;
+import org.matsim.core.population.PopulationUtils;
+import org.matsim.core.scenario.MutableScenario;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.counts.Counts;
 import org.matsim.counts.CountsWriter;
 
-import generated.CountType;
-import generated.CountsType;
-import generated.ObjectFactory;
 import model.LinkHourlyCount;
 
 public class CountsGenerator {
@@ -62,6 +64,35 @@ public class CountsGenerator {
             }
         }
 
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("postproc/hourly_counts_all.csv"))) {
+            writer.write("link;00:00:00;01:00:00;02:00:00;03:00:00;04:00:00;05:00:00;06:00:00;07:00:00;08:00:00;09:00:00;10:00:00;11:00:00;12:00:00;13:00:00;14:00:00;15:00:00;16:00:00;17:00:00;18:00:00;19:00:00;20:00:00;21:00:00;22:00:00;23:00:00;24:00:00;25:00:00;26:00:00;27:00:00;28:00:00;29:00:00;30:00:00");
+//            writer.write(IntStream.rangeClosed(0, LinkHourlyCount.maxHour-1).mapToObj(String::valueOf).collect(Collectors.joining(";")));
+            writer.write("\n");
+
+            for (var lhc : counts.entrySet()) {
+                writer.write(lhc.getKey() + ";");
+                writer.write(Arrays.stream(lhc.getValue().getCounts()).map(x -> x * coef).mapToObj(String::valueOf).collect(Collectors.joining(";")));
+                writer.write("\n");
+            }
+        }
+    }
+    
+    public static void readCountsCompare(Path fin) throws IOException {
+    	counts.clear();
+    	
+        try(final InputStream in = new FileInputStream(fin.toFile());
+            BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+            String line;
+            br.readLine();
+            while ((line = br.readLine()) != null) {
+            	String[] tokens = line.split("\t");
+            	int hour = Integer.parseInt(tokens[2]) - 1;
+                int cnt = Integer.parseInt(tokens[3]);
+            	
+                counts.merge(tokens[0], LinkHourlyCount.linkInit(tokens[1], hour, cnt), (v1, v2) -> v1.inc(hour, cnt));
+            }
+        }
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("postproc/hourly_counts.csv"))) {
             writer.write("link;01:00:00;02:00:00;03:00:00;04:00:00;05:00:00;06:00:00;07:00:00;08:00:00;09:00:00;10:00:00;11:00:00;12:00:00;13:00:00;14:00:00;15:00:00;16:00:00;17:00:00;18:00:00;19:00:00;20:00:00;21:00:00;22:00:00;23:00:00;24:00:00;25:00:00;26:00:00;27:00:00;28:00:00;29:00:00;30:00:00");
 //            writer.write(IntStream.rangeClosed(0, LinkHourlyCount.maxHour-1).mapToObj(String::valueOf).collect(Collectors.joining(";")));
@@ -69,7 +100,7 @@ public class CountsGenerator {
 
             for (var lhc : counts.entrySet()) {
                 writer.write(lhc.getKey() + ";");
-                writer.write(Arrays.stream(lhc.getValue().getCounts()).map(x -> x * coef).mapToObj(String::valueOf).collect(Collectors.joining(";")));
+                writer.write(Arrays.stream(lhc.getValue().getCounts()).mapToObj(String::valueOf).collect(Collectors.joining(";")));
                 writer.write("\n");
             }
         }
@@ -163,25 +194,11 @@ public class CountsGenerator {
                 if ( yr == year && lat > minX && lat < maxX && lon > minY && lon < maxY) {
                     String point_id = tokens[1];
                     String dir = tokens[2];
-                    int cnt = Integer.parseInt(tokens[22]) + Integer.parseInt(tokens[23]) + Integer.parseInt(tokens[24]);
+                    int cnt = Integer.parseInt(tokens[33]);
                     int hour = Integer.parseInt(tokens[5]);
                     System.out.println("Adding " + point_id + ", hour " + hour);
 
-                    int tries = 1;
-                    while (tries > 0) {
-                        try {
-                            addToBase(point_id, dir, hour, lat, lon, cnt);
-                            tries = 0;
-                        } catch (IOException e) {
-                            System.err.println(e.getMessage());
-                            tries--;
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException r) {
-                                System.err.println(r.getMessage());
-                            }
-                        }
-                    }
+                    addToBase(point_id, dir, hour, lat, lon, cnt);
                 }
                 line = br.readLine();
                 if (line != null) {
@@ -266,13 +283,17 @@ public class CountsGenerator {
 
     public static double calculateError() throws IOException {
         int start = 8;
-        int end = 19;
+        int end = 18;
         Map<String, LinkHourlyCount> stations = base;
 
         double[] MAE = new double[30];
         double[] RMSE = new double[30];
         int[] total_stations = new int[30];
         int[] total_sim = new int[30];
+        
+        List<Double> stationMAE = new LinkedList<>();
+        List<Double> stationRMSE = new LinkedList<>();
+        List<Integer> cntByStation = new LinkedList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader("postproc/hourly_counts.csv"))) {
             br.readLine();
@@ -289,14 +310,23 @@ public class CountsGenerator {
 
                 int[] cnt = stations.get(tokens[0]).getCounts();
 
+                double stat1 = 0, stat2 = 0;
+                
                 for (int i = start; i <= end; i++) {
-                    int current = Integer.parseInt(tokens[i+1]);
+                    int current = Integer.parseInt(tokens[i+2]);
                     total_sim[i] += current;
                     total_stations[i] += cnt[i-1];
                     MAE[i] += Math.abs(current - cnt[i-1]);
                     RMSE[i] += Math.pow(current - cnt[i-1], 2);
+                    stat1 += Math.abs(current - cnt[i-1]);
+                    stat2 += Math.pow(current - cnt[i-1], 2);
                 }
 
+                stationMAE.add(stat1 / (end - start + 1));
+                stationRMSE.add(stat2 / (end - start + 1));
+                cntByStation.add(Arrays.stream(cnt).sum());
+                System.out.println(base.get(tokens[0]).getStationNo());
+                
                 line = br.readLine();
             }
         }
@@ -380,10 +410,43 @@ public class CountsGenerator {
     		
 			int[] data = entry.getValue().getCounts();
     		for (int i = 7; i <= 18; i++) {
-    			counts.getCount(id).createVolume(i+1, data[i]);
+    			counts.getCount(id).createVolume(i+2, data[i]);
     		}
     	}
     	
     	new CountsWriter(counts).write("scenarios/plymouth/counts.xml");
+    }
+    
+    public static void stats() {
+    	Config conf = ConfigUtils.createConfig();
+    	MutableScenario pop = ScenarioUtils.createMutableScenario(conf);
+    	pop.setPopulation(PopulationUtils.readPopulation("test/plymouth_0.30.plans.xml.gz"));
+//    	Population pop = ScenarioUtils.loadScenario(ConfigUtils.loadConfig( "scenarios/plymouth/config.xml")).getPopulation();
+    	Map<String, Integer> cnt = new HashMap<>();
+    	
+    	for (var plan : pop.getPopulation().getPersons().values().stream().map(Person::getSelectedPlan).collect(Collectors.toList())) {
+    		
+    		ArrayList<PlanElement> pe = (ArrayList<PlanElement>) plan.getPlanElements();
+    		for (int i = 1; i < pe.size(); i+= 2) {
+    			if (i < (pe.size() - 5)
+    					&& ((Activity) pe.get(i-1)).getType().equals("home")
+    					&& ((Activity) pe.get(i+1)).getType().equals("pt interaction")
+    					&& ((Activity) pe.get(i+3)).getType().equals("pt interaction")
+    					&& ((Activity) pe.get(i+5)).getType().equals("work")) {
+    				cnt.merge("pt", 1, Integer::sum);
+    			}
+    			else if (((Activity) pe.get(i-1)).getType().equals("home")
+    					&& ((Activity) pe.get(i+1)).getType().equals("work")
+    					&& plan.getPerson().getAttributes().getAttribute("subpopulation").equals("default")) {
+    				cnt.merge(((Leg) pe.get(i)).getMode(), 1, Integer::sum);
+    			}
+    		}
+    		
+    		
+    	}
+    	int overall = cnt.values().stream().reduce(0, Integer::sum);
+		for (var e : cnt.entrySet()) {
+    		System.out.println(e.getKey() + ": " + ((double) e.getValue() / overall));
+		}
     }
 }

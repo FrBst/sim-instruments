@@ -1,4 +1,4 @@
 title: "Traffic Difference"
 csvFile: "count_osm_mapped.csv"
 csvBase: "hourly_counts.csv"
-network: "*output_network.xml.gz"
+network: "*output_network.geo.json.gz"

@@ -41,9 +41,9 @@ converted_links = {}
 for link in links.values:
     coords = []
 
-    fromY, fromX = coord_transformer.transform(link[2],link[1])
+    fromY, fromX = coord_transformer.transform(link[1],link[2])
     coords.extend([round(fromX, 6), round(fromY, 6)])
-    toY, toX = coord_transformer.transform(link[4], link[3])
+    toY, toX = coord_transformer.transform(link[3], link[4])
     coords.extend([round(toX, 6), round(toY, 6)])
 
     converted_links[link[0]] = coords

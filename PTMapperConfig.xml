@@ -7,7 +7,7 @@
 		Must be >= 1. -->
 		<param name="candidateDistanceMultiplier" value="1.6" />
 		<!-- Path to the input network file. Not needed if PTMapper is called within another class. -->
-		<param name="inputNetworkFile" value="network.xml" />
+		<param name="inputNetworkFile" value="network.xml.gz" />
 		<!-- Path to the input schedule file. Not needed if PTMapper is called within another class. -->
 		<param name="inputScheduleFile" value="transitSchedule.xml" />
 		<!-- The maximal distance [meter] a link candidate is allowed to have from the stop facility.
@@ -20,7 +20,7 @@
 		<param name="maxTravelCostFactor" value="5.0" />
 		<!-- All links that do not have a transit route on them are removed, except the ones 
 		listed in this set (typically only car). Separated by comma. -->
-		<param name="modesToKeepOnCleanUp" value="car" />
+		<param name="modesToKeepOnCleanUp" value="car,bike,freight" />
 		<!-- Number of link candidates considered for all stops, depends on accuracy of stops and desired 
 		performance. Somewhere between 4 and 10 seems reasonable for bus stops, depending on the
 		accuracy of the stop facility coordinates and performance desires. Default: 6 -->

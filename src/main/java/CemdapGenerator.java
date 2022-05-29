@@ -20,7 +20,7 @@ public class CemdapGenerator {
     static int[][] workplaces = new int[zonesX][zonesY];
 
     public void main() {
-        String[] dbScript = generateCemdapData(26320);
+        String[] dbScript = generateCemdapData(26320); // +1618?
     }
 
     private String[] generateCemdapData(int n) {
@@ -30,8 +30,30 @@ public class CemdapGenerator {
         LinkedList<List<Double>> zone2zone = new LinkedList<>();
         LinkedList<List<Double>> los = new LinkedList<>();
 
+        OSMData osm = new OSMData(zonesX, zonesY);
+        osm.init();
+        
+        List<Integer> shopping = osm.getTop(ActivityType.SHOP);
+        List<Integer> shopCounts = osm.getCount(ActivityType.SHOP);
+        List<Integer> workCounts = osm.getCount(ActivityType.WORK);
+        List<Integer> homeCounts = osm.getCount(ActivityType.HOME);
+        int maxWork = workCounts.stream()
+        		.sorted(Comparator.reverseOrder())
+        		.limit(1)
+        		.findFirst().get();
+        
+        List<Integer> facilities = osm.getCountMerged();
+        
         for (int i = 0; i < zonesY * zonesX; i++) {
+        	if (facilities.get(i) == 0) {
+        		continue;
+        	}
+        	
             for (int j = 0; j < zonesY * zonesX; j++) {
+            	if (facilities.get(j) == 0) {
+            		continue;
+            	}
+            	
                 zone2zone.add(new LinkedList<>());
                 los.add(new LinkedList<>());
                 zone2zone.getLast().add((double)i);
@@ -47,8 +69,8 @@ public class CemdapGenerator {
                     los.getLast().add(0.0);
                 }
                 double distance = 1.0 + Math.sqrt(Math.pow((i % zonesX) - (j % zonesX), 2) + Math.pow((i / zonesX) - (j / zonesX), 2));
-                zone2zone.getLast().add(distance);
-                los.getLast().add(distance);
+                zone2zone.getLast().add(distance * 700);
+                los.getLast().add(distance * 700);
                 los.getLast().add(distance);
                 los.getLast().add(3.1);
                 los.getLast().add(1.0);
@@ -60,9 +82,6 @@ public class CemdapGenerator {
                 los.getLast().add(29.0);
             }
         }
-
-        OSMData osm = new OSMData(zonesX, zonesY);
-        osm.init();
 
         Random r = new Random(125111);
         for (int i = 1; i < n; i++) {
@@ -90,7 +109,8 @@ public class CemdapGenerator {
             // adult is employed
             double aemp = (Age > 18 && stu == 0.0 && r.nextDouble() < 0.966) ? 1.0 : 0.0;
             // Is the person licensed to drive
-            double License = (Age > 18 && r.nextDouble() < 0.74) ? 1.0 : 0.0;
+//            double License = (Age > 18 && r.nextDouble() < 0.74) ? 1.0 : 0.0;
+            double License = 1.0;
             // Work TSZ
             double WorkTSZ = (aemp == 1 ? osm.getRandomZone(ActivityType.WORK) : -99);
             // School TSZ
@@ -118,9 +138,10 @@ public class CemdapGenerator {
             // Gender of the person
             double Male = Female == 1 ? 0 : 1;
             // personal vehicle availability
-            double pvehavbl = (License == 1 && r.nextDouble() < 0.99) ? 1 : 0;
+//            double pvehavbl = (License == 1 && r.nextDouble() < 0.99) ? 1 : 0;
+            double pvehavbl = 1.0;
             // high work flexibility
-            double highflex = (aemp == 1 && r.nextDouble() < 0.3) ? 1 : 0;
+            double highflex = (aemp == 1 && r.nextDouble() < 0.1) ? 1 : 0;
             // pre school completed, child
             double presch = 0;
             // kindergarten to grade 4 completed, child
@@ -145,7 +166,7 @@ public class CemdapGenerator {
             double income = 0;
             if (aemp == 1)
             {
-                int gauss = (int) Math.round(r.nextGaussian() * 15 + 20);
+                int gauss = (int) (Math.round(r.nextGaussian() * ((double) workCounts.get((int) WorkTSZ) / maxWork) * 60) + ((double) workCounts.get((int) WorkTSZ) / maxWork) * 120000);
                 if (gauss < 0) {
                     income = 0;
                 } else {
@@ -185,7 +206,7 @@ public class CemdapGenerator {
             // child not a student
             double cnotstu = 0;
             // adult is unemployed
-            double aunemp = (aemp == 0 && Age > 18) ? 1 : 0;
+            double aunemp = (aemp == 0 && Age > 16) ? 1 : 0;
             // adult son or daughter in a single parent or nuclear family household
             double adchild = 0;
             // Person is 16 years of age or older
@@ -366,16 +387,12 @@ public class CemdapGenerator {
             households.add(h);
         }
         
-        List<Integer> shopping = osm.getTop(ActivityType.SHOP);
-        List<Integer> shopCounts = osm.getCount(ActivityType.SHOP);
-        List<Integer> workCounts = osm.getCount(ActivityType.WORK);
-        List<Integer> homeCounts = osm.getCount(ActivityType.HOME);
-        int maxWork = workCounts.stream()
-        		.sorted(Comparator.reverseOrder())
-        		.limit(1)
-        		.findFirst().get();
-        
         for (int i = 0; i < zonesY * zonesX; i++) {
+        	if (facilities.get(i) == 0) {
+        		zones.add(new LinkedHashMap<>());
+        		continue;
+        	}
+        	
         	int temp = i;
         	double closestShopDist = shopping.stream()
         			.mapToDouble(z -> getDistance(temp, z))
@@ -383,16 +400,17 @@ public class CemdapGenerator {
         			.limit(1)
         			.findFirst().getAsDouble();
         	
+        	
             zones.add(new LinkedHashMap<>());
             zones.get(i).put("ZONEID", (double) i);
-            zones.get(i).put("SHOPDIST", closestShopDist);
+            zones.get(i).put("SHOPDIST", closestShopDist * 700);
             zones.get(i).put("REMPACC", (double) (shopCounts.get(i) / CountsGenerator.coef));
             zones.get(i).put("RSEMPACC", 1.0);
             zones.get(i).put("TEMPACC", 1.0);
             zones.get(i).put("POPACC", 1.0);
             zones.get(i).put("DALCBD", 0.0);
             zones.get(i).put("FWCBD", 0.0);
-            zones.get(i).put("MEDINC", ((double) workCounts.get(i) / maxWork) * 100000);
+            zones.get(i).put("MEDINC", ((double) workCounts.get(i) / maxWork) * 120000);
             zones.get(i).put("NUMHH", (double) homeCounts.get(i) / CountsGenerator.coef);
             zones.get(i).put("NUMPERS", (double) homeCounts.get(i) / CountsGenerator.coef);
             zones.get(i).put("BEMP", 1.0);
@@ -429,7 +447,7 @@ public class CemdapGenerator {
                         .collect(Collectors.joining(",")) + ");"
         ).collect(Collectors.toList());
 
-        List<String> outz = zones.stream().map(l -> "INSERT INTO public.zones(" +
+        List<String> outz = zones.stream().filter(m -> !m.isEmpty()).map(l -> "INSERT INTO public.zones(" +
                 "zid, shopdist, rempacc, rsempacc, tempacc, popacc, dalcbd, fwcbd," +
                 " medinc, numhh, numpers, bemp, remp, semp, totemp, parkcost, county," +
                 " splluse, internal) " +

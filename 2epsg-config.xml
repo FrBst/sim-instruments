@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v2.dtd"
+		[
+				<!ENTITY INPUTBASE  "./">
+				<!ENTITY OUTPUTBASE "./output/">
+				<!ENTITY SCENARIO "plymouth">
+				<!ENTITY SEED	"0">
+				<!ENTITY COEF	"0.1">
+				<!ENTITY COUNTS_COEF	"10">
+				]
+		>
+<config>
+	<module name="global" >
+		<param name="coordinateSystem" value="EPSG:27700" /> <!-- TODO: For GB -->
+		<param name="defaultDelimiter" value=";" />
+		<param name="insistingOnDeprecatedConfigVersion" value="true" />
+		<!-- "global" number of threads.  This number is used, e.g., for replanning, but NOT in QSim.  This can typically be set to as many cores as you have available, or possibly even slightly more. -->
+		<param name="numberOfThreads" value="8" /> <!-- TODO: Should work? -->
+		<param name="randomSeed" value="&SEED;" /> <!-- TODO: Custom seed -->
+	</module>
+	<module name="network" >
+		<param name="inputNetworkFile" value="network.xml.gz" />
+	</module>
+	<module name="transit" >
+		<!-- The Coordinates Reference System in which the coordinates are expressed in the input file. At import, the coordinates will be converted to the coordinate system defined in "global", and willbe converted back at export. If not specified, no conversion happens. -->
+		<param name="inputScheduleCRS" value="null" />
+		<param name="insistingOnUsingDeprecatedAttributeFiles" value="false" />
+		<!-- The type of transit routing algorithm used, may have the values: [DijkstraBased, SwissRailRaptor] -->
+		<param name="routingAlgorithmType" value="SwissRailRaptor" />
+		<!-- Optional input file containing additional attributes for transit lines, stored as ObjectAttributes. -->
+		<param name="transitLinesAttributesFile" value="null" />
+		<!-- Comma-separated list of transportation modes that are handled as transit. Defaults to 'pt'. -->
+		<param name="transitModes" value="pt" />
+		<!-- Input file containing the transit schedule to be simulated. -->
+		<param name="transitScheduleFile" value="test/plymouth_0.60.transitSchedule.xml.gz" />  <!-- TODO: ... -->
+		<!-- Optional input file containing additional attributes for transit stop facilities, stored as ObjectAttributes. -->
+		<param name="transitStopsAttributesFile" value="null" />
+		<!-- Set this parameter to true if transit should be simulated, false if not. -->
+		<param name="useTransit" value="true" />  <!-- TODO: Sure pal -->
+		<param name="usingTransitInMobsim" value="true" />
+		<!-- Input file containing the vehicles used by the departures in the transit schedule. -->
+		<param name="vehiclesFile" value="null" />  <!-- TODO: ... -->
+	</module>
+</config>

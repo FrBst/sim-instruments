@@ -8,7 +8,7 @@
 			<attribute name="doorOperationMode" class="org.matsim.vehicles.VehicleType$DoorOperationMode">serial</attribute>
 			<attribute name="egressTimeInSecondsPerPerson" class="java.lang.Double">0.5</attribute>
 		</attributes>
-		<capacity seats="70" standingRoomInPersons="0">
+		<capacity seats="7" standingRoomInPersons="0">
 
 		</capacity>
 		<length meter="18.0"/>
@@ -27,7 +27,7 @@
 			<attribute name="doorOperationMode" class="org.matsim.vehicles.VehicleType$DoorOperationMode">serial</attribute>
 			<attribute name="egressTimeInSecondsPerPerson" class="java.lang.Double">0.5</attribute>
 		</attributes>
-		<capacity seats="250" standingRoomInPersons="0">
+		<capacity seats="25" standingRoomInPersons="0">
 
 		</capacity>
 		<length meter="50.0"/>

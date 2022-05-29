@@ -15,12 +15,19 @@ public class LinkHourlyCount {
     @Getter
     @Setter
     private String stationNo;
+    
 
     public LinkHourlyCount inc(int hour) {
-        this.hour[hour]++;
+        inc(hour, 1);
+        return this;
+    }
+    
+    public LinkHourlyCount inc(int hour, int cnt) {
+        this.hour[hour] += cnt;
         return this;
     }
 
+    // TODO: Could do better
     public LinkHourlyCount set(int hour, int cnt) {
         this.hour[hour] = cnt;
         return this;
